@@ -1,0 +1,64 @@
+EXECUTIVE EDU PLATFORM - TECHNOLOGY STACK & DETAILS
+===================================================
+
+This document outlines the complete technology stack, libraries, and architecture used to build the consulting application.
+
+1. CORE FRAMEWORK
+-----------------
+Next.js 15 (App Router)
+- React framework used for server-side rendering (SSR), static site generation (SSG), and API routes.
+- App Router is used for modern routing (e.g., `src/app/page.tsx`).
+- Turbopack enabled for ultra-fast local development compilation.
+
+2. LANGUAGE
+-----------
+TypeScript
+- Strongly typed superset of JavaScript.
+- Used universally across the frontend components and backend API routes to ensure type safety and reduce runtime errors.
+
+3. DATABASE & ORM
+-----------------
+Prisma ORM (v5.22.0)
+- Next-generation Node.js and TypeScript ORM.
+- Schema defined in `prisma/schema.prisma`.
+- Currently configured to use SQLite (a local lightweight SQL database using `dev.db`) for immediate out-of-the-box local development without extra installation.
+- Easily interchangeable back to PostgreSQL or MySQL by editing `provider` in `schema.prisma`.
+
+4. AUTHENTICATION & SECURITY
+----------------------------
+NextAuth.js (v4)
+- Complete open-source authentication solution for Next.js applications.
+- Configured with `CredentialsProvider` for traditional email/password login.
+- Uses JWT (JSON Web Tokens) for managing lightweight, secure stateless sessions (`src/lib/auth.ts`).
+
+bcryptjs
+- Password hashing function used to securely encrypt user passwords before storing them in the database (`src/app/api/auth/register/route.ts`).
+
+5. USER INTERFACE & COMPONENT LIBRARY
+-------------------------------------
+Tailwind CSS (v4)
+- Utility-first CSS framework for rapid and highly customizable UI prototyping.
+- Configured for responsive design processing, custom theme gradients, and layout controls.
+
+shadcn/ui
+- A collection of beautifully designed, accessible, reusable components.
+- Components are not installed as dependencies, but injected directly into the `src/components/ui/` folder for maximum customization (Buttons, Cards, Forms, Inputs, Labels, Dialogs).
+- Built on top of Radix UI primitives and perfectly aligned with Tailwind.
+
+Lucide React
+- Beautiful & consistent SVG icon library used heavily across the application (CheckCircle, PlayCircle, BookOpen, Clock, ArrowLeft).
+
+6. PAYMENTS & COMMERCE
+----------------------
+Stripe
+- Backend payment processing infrastructure (`stripe` node package).
+- Integrates `Stripe Checkout` to handle secure credit card transactions for course enactments.
+- Stripe Webhooks configured to listen securely for `checkout.session.completed` to assign course access directly into the Prisma database upon successful payment.
+
+---
+SUMMARY OF KEY DIRECTORIES:
+• /src/app             -> Main Next.js routing, pages, and API endpoints
+• /src/components      -> Reusable React components (Navbar, AuthProvider, etc.)
+• /src/components/ui   -> Primitive shadcn elements
+• /src/lib             -> Centralized utilities (Prisma client config, NextAuth settings)
+• /prisma              -> Database schemas, migrations, and seed scripts
