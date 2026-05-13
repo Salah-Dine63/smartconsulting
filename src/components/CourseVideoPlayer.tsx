@@ -23,6 +23,11 @@ function normalizeModule(mod: Module | string, index: number): Module {
     return mod
 }
 
+function isLocalVideo(url?: string): boolean {
+    if (!url) return false
+    return url.startsWith("/") || /\.(mp4|webm|ogg|mov)$/i.test(url)
+}
+
 function toEmbedUrl(url?: string): string {
     if (!url) return ""
     if (url.includes("drive.google.com/file/d/")) {
@@ -95,7 +100,15 @@ export default function CourseVideoPlayer({ courseTitle, modules }: Props) {
             <main className="flex-1 flex flex-col h-full overflow-hidden">
                 <div className="flex-1 bg-black p-4 md:p-8 flex flex-col">
                     <div className="aspect-video w-full max-w-5xl mx-auto bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl flex-shrink-0">
-                        {embedUrl ? (
+                        {isLocalVideo(active.videoUrl) ? (
+                            <video
+                                key={active.videoUrl}
+                                src={active.videoUrl}
+                                className="w-full h-full"
+                                controls
+                                controlsList="nodownload"
+                            />
+                        ) : embedUrl ? (
                             <iframe
                                 key={embedUrl}
                                 src={embedUrl}

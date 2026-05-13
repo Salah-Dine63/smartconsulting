@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\pc\\\\Desktop\\\\consulting_app\\\\src\\\\app\" -Recurse -Type f -Name)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

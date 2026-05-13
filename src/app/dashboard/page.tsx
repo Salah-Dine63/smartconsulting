@@ -2,10 +2,11 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { PlayCircle, Clock } from "lucide-react"
+import { PlayCircle } from "lucide-react"
+import { CourseCard } from "@/components/CourseCard"
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions)
@@ -47,51 +48,51 @@ export default async function DashboardPage() {
                             </CardContent>
                         </Card>
                     ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {enrollments.map((enr: any) => (
-                                <Card key={enr.id} className="border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-3xl overflow-hidden bg-white group">
-                                    <div className="h-48 bg-gradient-to-br from-blue-950 via-slate-900 to-black relative">
-                                        <div className="absolute inset-0 bg-white/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
-                                            <span className="text-5xl font-black text-white/50 tracking-tighter">AI</span>
-                                        </div>
-                                    </div>
-                                    <CardContent className="p-8">
-                                        <h3 className="font-bold text-xl text-slate-900 mb-3 line-clamp-2 leading-tight">{enr.course.title}</h3>
-                                        <p className="text-slate-600 line-clamp-3 mb-6 text-sm leading-relaxed">{enr.course.description}</p>
-                                        <div className="flex items-center gap-3 text-sm text-slate-500 mb-8 font-medium">
-                                            <Clock className="w-4 h-4 text-blue-600" />
-                                            <span>{JSON.parse(enr.course.modules).length} Modules • Self-paced</span>
-                                        </div>
-                                        <Link href={`/courses/${enr.course.id}/video`}>
-                                            <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/20 py-6 text-base font-semibold transition-transform active:scale-95">
-                                                Continue Learning
-                                            </Button>
-                                        </Link>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                            {enrollments.map((enr: any) => {
+                                let moduleCount = 0
+                                try { moduleCount = JSON.parse(enr.course.modules).length } catch {}
+                                return (
+                                    <CourseCard
+                                        key={enr.id}
+                                        title={enr.course.title}
+                                        description={enr.course.description}
+                                        moduleCount={moduleCount}
+                                        imageUrl={enr.course.imageUrl}
+                                        buttonText="Continue Learning"
+                                        href={`/courses/${enr.course.id}/video`}
+                                    />
+                                )
+                            })}
                         </div>
                     )}
                 </section>
 
                 <section>
                     <h2 className="text-2xl font-bold text-slate-900 mb-6 tracking-tight">Recommended for You</h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {allCourses.filter((c: any) => !enrollments.some((e: any) => e.courseId === c.id)).map((course: any) => (
-                            <Card key={course.id} className="border border-slate-200 shadow-sm rounded-2xl bg-white opacity-80 hover:opacity-100 transition-opacity">
-                                <CardHeader>
-                                    <CardTitle className="text-lg">{course.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <Link href={`/courses/${course.id}`}>
-                                        <Button variant="outline" className="w-full text-blue-700 border-blue-200 hover:bg-blue-50 py-5 font-semibold rounded-xl">
-                                            View Course
-                                        </Button>
-                                    </Link>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
+                    {(() => {
+                        const recommended = allCourses.filter((c: any) => !enrollments.some((e: any) => e.courseId === c.id))
+                        if (recommended.length === 0) return null
+                        return (
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                                {recommended.map((course: any) => {
+                                    let moduleCount = 0
+                                    try { moduleCount = JSON.parse(course.modules).length } catch {}
+                                    return (
+                                        <CourseCard
+                                            key={course.id}
+                                            title={course.title}
+                                            description={course.description}
+                                            moduleCount={moduleCount}
+                                            imageUrl={course.imageUrl}
+                                            buttonText="View Course"
+                                            href={`/courses/${course.id}`}
+                                        />
+                                    )
+                                })}
+                            </div>
+                        )
+                    })()}
                 </section>
             </div>
         </div>
