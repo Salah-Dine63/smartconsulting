@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+google-generativeai
+edge-tts
+moviepy
+playwright
+python-dotenv

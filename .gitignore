@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# Python video API
+video_api/__pycache__/
+video_api/*.pyc
+video_api/.env
+video_api/output/
+video_api/*.db
