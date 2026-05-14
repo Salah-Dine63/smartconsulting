@@ -17,13 +17,6 @@ export const authOptions: NextAuthOptions = {
         LinkedInProvider({
             clientId: process.env.LINKEDIN_CLIENT_ID || "",
             clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
-            client(clientId, clientSecret) {
-                // To avoid NextAuth LinkedIn Provider issues with newer LinkedIn APIs
-                return {
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                }
-            }
         }),
         CredentialsProvider({
             name: "Credentials",
