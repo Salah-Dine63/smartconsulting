@@ -2,8 +2,9 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { Users, BookOpen, DollarSign, TrendingUp } from "lucide-react"
+import { Users, BookOpen, DollarSign, TrendingUp, Video } from "lucide-react"
 import AdminCourseForm from "@/components/AdminCourseForm"
+import Link from "next/link"
 
 export default async function AdminPage() {
     const session = await getServerSession(authOptions)
@@ -33,9 +34,18 @@ export default async function AdminPage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-300 p-8">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-extrabold text-white">Admin Dashboard</h1>
-                    <p className="text-slate-400 mt-1">Manage your platform</p>
+                <div className="mb-8 flex items-start justify-between">
+                    <div>
+                        <h1 className="text-3xl font-extrabold text-white">Admin Dashboard</h1>
+                        <p className="text-slate-400 mt-1">Manage your platform</p>
+                    </div>
+                    <Link
+                        href="/admin/generate"
+                        className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors"
+                    >
+                        <Video className="w-4 h-4" />
+                        AI Video Generator
+                    </Link>
                 </div>
 
                 {/* Stats */}
