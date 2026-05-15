@@ -22,7 +22,7 @@ export default function Home() {
             Gain executive-level expertise in Artificial Intelligence and Digital Transformation. Accelerate your career with our rigorous, industry-focused programs.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/courses/1">
+            <Link href="/courses">
               <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white px-8 py-6 text-base font-semibold rounded-xl shadow-lg shadow-blue-900/50 transition-all hover:-translate-y-0.5">
                 Explore Courses
               </Button>
@@ -97,7 +97,7 @@ export default function Home() {
                 <p className="text-base text-slate-600 mb-8 leading-relaxed">
                   A comprehensive 6-week journey designed exclusively for business leaders and technical managers to master Large Language Models and intelligent enterprise workflow automation.
                 </p>
-                <Link href="/courses/1">
+                <Link href="/courses">
                   <Button size="lg" className="bg-slate-900 hover:bg-slate-800 text-white px-8 rounded-xl shadow-md w-full sm:w-auto">
                     View Course Details &rarr;
                   </Button>

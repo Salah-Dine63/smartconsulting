@@ -40,7 +40,7 @@ export default async function DashboardPage() {
                                 </div>
                                 <h3 className="text-2xl font-bold text-slate-900 mb-3">No active enrollments yet</h3>
                                 <p className="text-slate-500 mb-8 max-w-md leading-relaxed text-lg">You haven't enrolled in any courses yet. Discover our premium professional courses to get started.</p>
-                                <Link href="/courses/1">
+                                <Link href="/courses">
                                     <Button size="lg" className="bg-blue-900 hover:bg-blue-800 text-white rounded-xl shadow-lg px-8 py-6 text-base font-semibold">
                                         Explore Our Catalog
                                     </Button>
