@@ -33,10 +33,10 @@ export default async function ProfilePage() {
     })
 
     const stats = [
-        { label: "Enrolled Courses", value: user._count.enrollments, icon: BookOpen, color: "text-blue-600", bg: "bg-blue-50" },
-        { label: "Total Purchases", value: user._count.payments,    icon: TrendingUp, color: "text-green-600", bg: "bg-green-50" },
-        { label: "Member Since",    value: joinDate,                 icon: Calendar,   color: "text-purple-600", bg: "bg-purple-50" },
-        { label: "Account Type",    value: user.role,                icon: ShieldCheck, color: "text-orange-600", bg: "bg-orange-50" },
+        { label: "Enrolled Courses", value: user._count.enrollments, icon: BookOpen,   color: "text-blue-600",   bg: "bg-blue-50" },
+        { label: "Total Purchases",  value: user._count.payments,    icon: TrendingUp,  color: "text-green-600",  bg: "bg-green-50" },
+        { label: "Member Since",     value: joinDate,                 icon: Calendar,    color: "text-purple-600", bg: "bg-purple-50" },
+        { label: "Account Type",     value: user.role,                icon: ShieldCheck, color: "text-orange-600", bg: "bg-orange-50" },
     ]
 
     return (
@@ -45,8 +45,16 @@ export default async function ProfilePage() {
 
                 {/* Header */}
                 <div className="flex items-center gap-5 mb-10">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center text-white text-2xl font-extrabold shadow-lg shadow-blue-200 shrink-0">
-                        {initials}
+                    <div className="relative shrink-0">
+                        <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg shadow-blue-200">
+                            {user.image ? (
+                                <img src={user.image} alt={user.name ?? "Avatar"} className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center text-white text-2xl font-extrabold">
+                                    {initials}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div>
                         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -82,6 +90,7 @@ export default async function ProfilePage() {
                 <ProfileForm
                     initialName={user.name ?? ""}
                     initialEmail={user.email ?? ""}
+                    initialImage={user.image ?? ""}
                     hasPassword={!!user.password}
                 />
             </div>

@@ -58,9 +58,15 @@ export default function Navbar() {
                                 </Button>
                             </Link>
                             <Link href="/profile">
-                                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-extrabold shadow-sm hover:bg-blue-700 transition-colors cursor-pointer">
-                                    {(session.user?.name ?? session.user?.email ?? "?")
-                                        .split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)}
+                                <div className="w-8 h-8 rounded-lg overflow-hidden shadow-sm hover:ring-2 hover:ring-blue-500 hover:ring-offset-1 transition-all cursor-pointer shrink-0">
+                                    {session.user?.image ? (
+                                        <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full bg-blue-600 text-white flex items-center justify-center text-xs font-extrabold">
+                                            {(session.user?.name ?? session.user?.email ?? "?")
+                                                .split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)}
+                                        </div>
+                                    )}
                                 </div>
                             </Link>
                             <Button onClick={() => signOut()} variant="outline" className="text-sm font-medium border-slate-200">
