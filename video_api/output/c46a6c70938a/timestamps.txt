@@ -1,0 +1,9 @@
+0:00 Intro
+0:04 Introduction: Beyond the Basics of JavaScript
+0:49 Event Loop Mechanics: Microtasks, Macrotasks, and Rendering
+1:39 Metaprogramming with Proxies & Reflect: Crafting Custom Object Behavior
+2:31 Advanced ES Modules: Resolution, Dynamic Loading, and Bundling
+3:18 WebAssembly Integration: Synergistic Performance with JavaScript
+4:11 Robust Applications: Advanced Error Handling and Resilience Patterns
+5:04 Summary: JavaScript Mastery in the Modern Web Landscape
+6:03 Outro

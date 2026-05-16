@@ -1,0 +1,10 @@
+0:00 Intro
+0:04 Introduction: JVM Architecture and Execution Model
+0:45 Advanced OOP: Encapsulation, Inheritance, Polymorphism, Abstraction
+1:37 Advanced Memory Management and Garbage Collection
+2:25 Concurrency Primitives and Threading Model
+3:14 Generics and Type Erasure
+3:57 Exception Handling and Custom Exceptions
+4:45 Functional Programming with Lambdas and Streams
+5:28 Summary: Mastering Java for Enterprise Development
+6:11 Outro

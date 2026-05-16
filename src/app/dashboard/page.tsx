@@ -14,6 +14,10 @@ export default async function DashboardPage() {
         redirect("/login")
     }
 
+    if ((session.user as any).role === "ADMIN") {
+        redirect("/admin")
+    }
+
     const userId = (session.user as any).id
     const enrollments = await prisma.enrollment.findMany({
         where: { userId },
@@ -27,7 +31,9 @@ export default async function DashboardPage() {
             <div className="container mx-auto max-w-6xl">
                 <header className="mb-12">
                     <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Your Learning Dashboard</h1>
-                    <p className="text-slate-600 mt-2 text-lg">Welcome back, {session.user.name}</p>
+                    <div className="flex items-center justify-between mt-2">
+                        <p className="text-slate-600 text-lg">Welcome back, {session.user.name}</p>
+                    </div>
                 </header>
 
                 <section className="mb-16">

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1920px; height:1080px; background:#06061a;
+    font-family:'Segoe UI',Arial,sans-serif; overflow:hidden; position:relative;
+  }
+  .bg-mesh {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 900px 700px at 5% 50%,  rgba(83,74,183,0.18)  0%,transparent 65%),
+      radial-gradient(ellipse 600px 500px at 95% 15%, rgba(93,202,165,0.10) 0%,transparent 65%),
+      radial-gradient(ellipse 500px 400px at 70% 95%, rgba(127,119,221,0.07) 0%,transparent 65%);
+  }
+  .bg-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(127,119,221,0.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(127,119,221,0.045) 1px,transparent 1px);
+    background-size:64px 64px;
+  }
+  .edge-top {
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#7F77DD,#5DCAA5,#7F77DD);
+    box-shadow:0 0 24px rgba(127,119,221,0.7);
+  }
+  .edge-left {
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:linear-gradient(180deg,transparent 5%,#7F77DD 35%,#5DCAA5 65%,transparent 95%);
+    box-shadow:0 0 20px rgba(127,119,221,0.5);
+  }
+  .ring {
+    position:absolute; border-radius:50%;
+    border:1px solid rgba(127,119,221,0.09);
+    opacity:0; animation:fadein .4s ease forwards;
+  }
+  .r1 { width:700px;height:700px;top:-250px;right:-100px;animation-delay:.05s; }
+  .r2 { width:480px;height:480px;top:-100px;right:60px;border-color:rgba(93,202,165,0.07);animation-delay:.1s; }
+  .r3 { width:240px;height:240px;bottom:80px;right:260px;animation-delay:.15s; }
+  .dot-grid {
+    position:absolute; top:90px; right:70px;
+    display:grid; grid-template-columns:repeat(10,1fr); gap:20px;
+    opacity:0; animation:fadein .5s .2s ease forwards;
+  }
+  .fdot { width:3px;height:3px;border-radius:50%;background:rgba(127,119,221,0.4); }
+  .fdot:nth-child(3n) { background:rgba(93,202,165,0.35); }
+  .fdot:nth-child(7n) { background:rgba(127,119,221,0.6); }
+  .tag {
+    display:inline-flex; align-items:center; gap:10px;
+    background:rgba(127,119,221,0.10); border:1px solid rgba(127,119,221,0.35);
+    border-radius:100px; padding:8px 26px;
+    font-size:19px; color:#AFA9EC; letter-spacing:0.12em; text-transform:uppercase;
+    width:fit-content; margin-bottom:26px;
+    opacity:0; transform:translateY(14px); animation:slideup .4s .05s ease forwards;
+  }
+  .tag-dot { width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#7F77DD,#5DCAA5);box-shadow:0 0 8px rgba(127,119,221,.8); }
+  .title {
+    font-size:62px; font-weight:700;
+    background:linear-gradient(135deg,#ffffff 0%,#ccc9f5 55%,#5DCAA5 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    line-height:1.18; margin-bottom:20px;
+    opacity:0; transform:translateY(14px); animation:slideup .4s .12s ease forwards;
+  }
+  .divider {
+    width:0; height:2px;
+    background:linear-gradient(90deg,#7F77DD,#5DCAA5,transparent);
+    border-radius:2px; margin-bottom:36px;
+    box-shadow:0 0 14px rgba(127,119,221,.45);
+    animation:growline .5s .28s ease forwards;
+  }
+  .cards { display:flex; flex-direction:column; gap:16px; }
+  .card {
+    display:flex; align-items:center; gap:26px;
+    background:rgba(127,119,221,0.055);
+    border:1px solid rgba(127,119,221,0.18);
+    border-left:3px solid var(--lb,#7F77DD);
+    border-radius:18px; padding:18px 28px;
+    opacity:0; transform:translateX(36px); animation:cardin .42s ease forwards;
+    box-shadow:0 6px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+    position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(127,119,221,.5) 40%,rgba(93,202,165,.3) 70%,transparent);
+  }
+  .badge {
+    min-width:48px; height:48px; border-radius:13px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px; font-weight:700; color:#fff; flex-shrink:0;
+    box-shadow:0 4px 18px rgba(127,119,221,.45); letter-spacing:.05em;
+  }
+  .card-text { font-size:34px; color:#dddcff; line-height:1.4; }
+  .slide-num {
+    position:absolute; bottom:28px; right:56px;
+    font-size:20px; color:rgba(127,119,221,.45); font-family:monospace; letter-spacing:.12em;
+  }
+  .progress-dots {
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; opacity:0; animation:fadein .4s .6s ease forwards;
+  }
+  .pdot {
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(127,119,221,0.2); border:1px solid rgba(127,119,221,.3);
+  }
+  .pdot.active {
+    background:linear-gradient(135deg,#7F77DD,#5DCAA5);
+    box-shadow:0 0 10px rgba(127,119,221,.7); width:24px; border-radius:4px;
+  }
+  .progress-bar {
+    position:absolute; bottom:0; left:0; height:3px;
+    background:linear-gradient(90deg,#534AB7,#7F77DD,#5DCAA5);
+    box-shadow:0 0 14px rgba(127,119,221,.6);
+    opacity:0; animation:fadein .4s .3s ease forwards;
+  }
+  @keyframes fadein  { to { opacity:1; } }
+  @keyframes slideup { to { opacity:1; transform:translateY(0); } }
+  @keyframes growline { to { width:460px; } }
+  @keyframes cardin  { to { opacity:1; transform:translateX(0); } }
+
+
+        .content {
+          position:absolute; top:65px; left:110px; right:80px; bottom:65px;
+          display:flex; flex-direction:row; align-items:center; gap:44px;
+        }
+        .left-col { flex:0 0 54%; display:flex; flex-direction:column; justify-content:center; }
+        .right-col {
+          flex:1; display:flex; flex-direction:column;
+          justify-content:center; gap:22px; min-width:0;
+        }
+        .eq-box {
+          background:rgba(127,119,221,0.06); border:1px solid rgba(127,119,221,0.22);
+          border-radius:20px; padding:22px 18px;
+          display:flex; justify-content:center; align-items:center;
+          box-shadow:0 4px 28px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04);
+          position:relative; overflow:hidden;
+          opacity:0; transform:translateX(30px); animation:cardin .45s ease forwards;
+        }
+        .eq-box::before {
+          content:''; position:absolute; top:0; left:0; right:0; height:1px;
+          background:linear-gradient(90deg,transparent,rgba(127,119,221,0.5),transparent);
+        }
+        .eq-box img { max-width:100%; max-height:160px; display:block; }
+        .vis-box {
+          background:rgba(127,119,221,0.035); border:1px solid rgba(127,119,221,0.15);
+          border-radius:20px; padding:18px;
+          display:flex; justify-content:center; align-items:center;
+          opacity:0; transform:translateX(30px); animation:cardin .45s ease forwards;
+        }
+        .dot-grid { display:none; }
+        /* ── code block ── */
+        .code-panel {
+          background:rgba(0,0,0,0.45); border:1px solid rgba(127,119,221,0.28);
+          border-radius:16px; overflow:hidden;
+          opacity:0; transform:translateX(30px); animation:cardin .45s ease forwards;
+        }
+        .code-header {
+          background:rgba(127,119,221,0.08); border-bottom:1px solid rgba(127,119,221,0.18);
+          padding:13px 18px; display:flex; align-items:center; gap:8px;
+        }
+        .dots { display:flex; gap:8px; }
+        .d { width:12px; height:12px; border-radius:50%; }
+        .d.r { background:#FF5F57; } .d.y { background:#FEBC2E; } .d.g { background:#28C840; }
+        .lang-label { margin-left:8px; font-size:16px; color:rgba(175,169,236,0.55); font-family:monospace; }
+        .code-body {
+          padding:20px 24px; font-family:'Cascadia Code','Consolas','Courier New',monospace;
+          font-size:22px; line-height:1.65; white-space:pre; overflow:hidden;
+          color:#E0DFFF;
+        }
+        .kw  { color:#C792EA; }
+        .str { color:#C3E88D; }
+        .cm  { color:#546E7A; font-style:italic; }
+        .fn  { color:#82AAFF; }
+        .num { color:#F78C6C; }
+        
+</style></head>
+<body>
+  <div class="bg-mesh"></div><div class="bg-grid"></div>
+  <div class="edge-top"></div><div class="edge-left"></div>
+  <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <div class="dot-grid"><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div></div>
+  <div class="content">
+        <div class="left-col">
+          <div class="tag"><div class="tag-dot"></div>Part 5</div>
+          <div class="title">Effective Error Handling with Try-Except</div>
+          <div class="divider"></div>
+          <div class="cards">
+        <div class="card" style="animation-delay:0.35s;--lb:#7F77DD">
+          <div class="badge" style="background:linear-gradient(135deg,#7F77DD,#5DCAA5)">01</div>
+          <div class="card-text">Anticipating runtime errors</div>
+        </div>
+        <div class="card" style="animation-delay:0.47s;--lb:#7F77DD">
+          <div class="badge" style="background:linear-gradient(135deg,#7F77DD,#5DCAA5)">02</div>
+          <div class="card-text">Using try-except blocks</div>
+        </div>
+        <div class="card" style="animation-delay:0.59s;--lb:#7F77DD">
+          <div class="badge" style="background:linear-gradient(135deg,#7F77DD,#5DCAA5)">03</div>
+          <div class="card-text">Handling specific exception types</div>
+        </div>
+        <div class="card" style="animation-delay:0.71s;--lb:#7F77DD">
+          <div class="badge" style="background:linear-gradient(135deg,#7F77DD,#5DCAA5)">04</div>
+          <div class="card-text">Ensuring graceful program execution</div>
+        </div></div>
+        </div>
+        
+        <div class="right-col">
+          <div class="code-panel" style="animation-delay:0.35s">
+            <div class="code-header">
+              <div class="dots">
+                <span class="d r"></span><span class="d y"></span><span class="d g"></span>
+              </div>
+              <span class="lang-label">python</span>
+            </div>
+            <pre class="code-body"><span class="kw">try</span>:
+  num = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter a number: "</span>))
+  result = <span class="num">10</span> / num
+  <span class="fn">print</span>(f<span class="str">"Result: {result}"</span>)
+<span class="kw">except</span> ZeroDivisionError:
+  <span class="fn">print</span>(<span class="str">"Error: Cannot divide by zero!"</span>)
+<span class="kw">except</span> ValueError:
+  <span class="fn">print</span>(<span class="str">"Error: Invalid input. Please enter a number."</span>)</pre>
+          </div>
+        </div></div>
+  <div class="slide-num">06 / 07</div>
+  <div class="progress-dots"><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot  active"></div><div class="pdot"></div></div>
+  <div class="progress-bar" style="width:85%"></div>
+</body></html>

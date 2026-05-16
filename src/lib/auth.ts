@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
-import LinkedInProvider from "next-auth/providers/linkedin"
+import AzureADProvider from "next-auth/providers/azure-ad"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "./prisma"
 import bcrypt from "bcryptjs"
@@ -14,6 +14,7 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
         }),
+<<<<<<< Updated upstream
         LinkedInProvider({
             clientId: process.env.LINKEDIN_CLIENT_ID || "",
             clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
@@ -24,6 +25,12 @@ export const authOptions: NextAuthOptions = {
                     client_secret: clientSecret,
                 }
             }
+=======
+        AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID || "",
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET || "",
+            tenantId: process.env.AZURE_AD_TENANT_ID || "common",
+>>>>>>> Stashed changes
         }),
         CredentialsProvider({
             name: "Credentials",

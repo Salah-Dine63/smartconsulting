@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{width:1280px;height:720px;background:#0c0c0c;
+       font-family:'Segoe UI',Arial,sans-serif;overflow:hidden;position:relative;
+       display:flex;align-items:center;}
+  .bg-mesh{position:absolute;inset:0;background:
+    radial-gradient(ellipse 800px 600px at 25% 50%,rgba(176,176,176,.28) 0%,transparent 55%),
+    radial-gradient(ellipse 500px 400px at 85% 30%,rgba(136,136,136,.14) 0%,transparent 55%);}
+  .bg-grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(229,229,229,.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(229,229,229,.06) 1px,transparent 1px);
+    background-size:48px 48px;}
+  .el{position:absolute;left:0;top:0;bottom:0;width:8px;
+       background:linear-gradient(180deg,#E5E5E5,#888888);
+       box-shadow:0 0 32px rgba(229,229,229,.9);}
+  .et{position:absolute;top:0;left:0;right:0;height:4px;
+       background:linear-gradient(90deg,#E5E5E5,#888888);
+       box-shadow:0 0 20px rgba(229,229,229,.8);}
+  .r1{position:absolute;width:500px;height:500px;top:-180px;right:-80px;
+       border-radius:50%;border:1px solid rgba(229,229,229,.08);}
+  .content{position:relative;z-index:1;padding:0 72px;display:flex;flex-direction:column;gap:22px;}
+  .badge{display:inline-flex;align-items:center;gap:10px;
+          background:rgba(229,229,229,.14);border:1px solid rgba(229,229,229,.38);
+          border-radius:100px;padding:8px 22px;font-size:16px;color:#C0C0C0;
+          letter-spacing:.12em;text-transform:uppercase;width:fit-content;}
+  .bdot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#E5E5E5,#888888);
+         box-shadow:0 0 8px rgba(229,229,229,.8);}
+  .title{font-size:58px;font-weight:700;
+          background:linear-gradient(135deg,#fff 0%,#D0D0D0 60%,#888888 100%);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+          line-height:1.15;max-width:960px;}
+  .meta{font-size:20px;color:rgba(192,192,192,.55);letter-spacing:.06em;}
+</style></head>
+<body>
+  <div class="bg-mesh"></div><div class="bg-grid"></div>
+  <div class="el"></div><div class="et"></div><div class="r1"></div>
+  <div class="content">
+    <div class="badge"><div class="bdot"></div>Full Lesson</div>
+    <div class="title">Mastering Modern JavaScript: An Expert's Journey</div>
+    <div class="meta">7 slides &nbsp;·&nbsp; AI-generated</div>
+  </div>
+</body></html>

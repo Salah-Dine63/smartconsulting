@@ -3,27 +3,26 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, PlayCircle, BookOpen, Clock } from "lucide-react"
 
-// In a real app we'd fetch this from Prisma. We use static data as the initial seed structure for this course.
-const MOCK_COURSE = {
-    id: "1",
-    title: "Generative AI for Business Automation",
-    description: "A comprehensive 6-week online journey designed exclusively for business leaders to master LLMs and intelligent workflow automation.",
-    price: 259,
-    modules: [
-        "Module 1: Introduction to Large Language Models",
-        "Module 2: Prompt Engineering for Executives",
-        "Module 3: Automating Internal Repetitive Tasks",
-        "Module 4: Building Custom AI Agents",
-        "Module 5: Security, Ethics, and Governance",
-        "Module 6: Final Capstone Project"
-    ],
-    duration: "6 Weeks",
-    level: "Intermediate"
-}
+import { prisma } from "@/lib/prisma"
 
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    if (id !== "1") return notFound()
+    
+    const course = await prisma.course.findUnique({
+        where: { id }
+    });
+
+    if (!course) return notFound()
+
+    let modulesList: any[] = [];
+    try {
+        modulesList = JSON.parse(course.modules);
+    } catch(e) {
+        modulesList = typeof course.modules === 'string' ? course.modules.split(',') : [];
+    }
+
+    const duration = "6 Weeks";
+    const level = "Intermediate";
 
     return (
         <div className="min-h-screen bg-slate-50 py-12">
@@ -35,8 +34,8 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
                                 Course Outline
                             </div>
-                            <h1 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">{MOCK_COURSE.title}</h1>
-                            <p className="text-lg text-slate-600 leading-relaxed">{MOCK_COURSE.description}</p>
+                            <h1 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">{course.title}</h1>
+                            <p className="text-lg text-slate-600 leading-relaxed">{course.description}</p>
                         </div>
 
                         <Card className="border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
@@ -66,13 +65,13 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                         <div>
                             <h2 className="text-2xl font-bold text-slate-900 mb-6 tracking-tight">Course Curriculum</h2>
                             <div className="space-y-3">
-                                {MOCK_COURSE.modules.map((mod, i) => (
+                                {modulesList.map((mod, i) => (
                                     <div key={i} className="flex items-center gap-4 p-5 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md hover:border-blue-300 transition-all cursor-default">
                                         <div className="w-12 h-12 bg-slate-100 text-slate-600 flex items-center justify-center rounded-xl font-black shrink-0 text-lg">
                                             {i + 1}
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-800">{mod}</h4>
+                                            <h4 className="font-bold text-slate-800">{typeof mod === 'string' ? mod : mod.title || `Module ${i+1}`}</h4>
                                         </div>
                                     </div>
                                 ))}
@@ -85,7 +84,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                             <Card className="border border-slate-200 shadow-2xl overflow-hidden rounded-3xl">
                                 <div className="bg-slate-900 p-8 text-center text-white relative">
                                     <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-cyan-400"></div>
-                                    <div className="text-5xl font-black mb-2 tracking-tight">${MOCK_COURSE.price}</div>
+                                    <div className="text-5xl font-black mb-2 tracking-tight">${course.price}</div>
                                     <p className="text-slate-400 text-sm font-medium uppercase tracking-widest">Full Access</p>
                                 </div>
                                 <CardContent className="p-8 space-y-6 bg-white">
@@ -94,13 +93,13 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                                             <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                                                 <Clock className="w-5 h-5 text-blue-600" />
                                             </div>
-                                            <span>{MOCK_COURSE.duration} Program</span>
+                                            <span>{duration} Program</span>
                                         </div>
                                         <div className="flex items-center gap-4 text-slate-700 font-medium">
                                             <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                                                 <BookOpen className="w-5 h-5 text-blue-600" />
                                             </div>
-                                            <span>{MOCK_COURSE.level} Level</span>
+                                            <span>{level} Level</span>
                                         </div>
                                         <div className="flex items-center gap-4 text-slate-700 font-medium">
                                             <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
@@ -112,7 +111,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
 
                                     <div className="pt-4 border-t border-slate-100">
                                         <form action="/api/stripe/checkout" method="POST">
-                                            <input type="hidden" name="courseId" value={MOCK_COURSE.id} />
+                                            <input type="hidden" name="courseId" value={course.id} />
                                             <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-6 text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-transform active:scale-95">
                                                 Enroll Now
                                             </Button>

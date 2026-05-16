@@ -1,0 +1,104 @@
+{
+  "title": "Python Fundamentals: A Deeper Dive",
+  "subject": "Python Fundamentls",
+  "slides": [
+    {
+      "slide_number": 1,
+      "title": "Welcome to Python Fundamentals",
+      "bullets": [
+        "Revisit core Python concepts",
+        "Deepen understanding of data types",
+        "Master control flow and functions",
+        "Explore essential data structures"
+      ],
+      "narration": "Hello everyone! Welcome to our session on Python Fundamentals. Today, we're not just reviewing basics, but taking a deeper dive into the elegant simplicity and powerful capabilities of Python. We'll revisit core concepts, but also explore them with an intermediate perspective, ensuring you have a solid grasp for more advanced topics. Our goal is to strengthen your foundational knowledge, enabling you to write more efficient and robust Python code.",
+      "equations": [],
+      "visual": "none",
+      "code": null
+    },
+    {
+      "slide_number": 2,
+      "title": "Variables, Data Types, and Mutability",
+      "bullets": [
+        "Dynamic typing in Python",
+        "Common built-in data types",
+        "Mutable vs. immutable objects",
+        "Impact on variable assignments"
+      ],
+      "narration": "Python is dynamically typed, meaning you don't declare a variable's type explicitly; the interpreter infers it at runtime. We'll re-examine common types like integers, floats, strings, and booleans. A crucial concept here is mutability: whether an object's state can change after creation. Understanding the difference between mutable (like lists) and immutable (like strings or tuples) types is fundamental to avoiding common programming pitfalls and writing predictable code.",
+      "equations": [],
+      "visual": "chart",
+      "code": "x = 10\ny = 'Python'\nz = [1, 2, 3]\nprint(type(x), type(y), type(z))\nz.append(4)\nprint(z)"
+    },
+    {
+      "slide_number": 3,
+      "title": "Mastering Control Flow",
+      "bullets": [
+        "Conditional statements: if/elif/else",
+        "Looping with for and while",
+        "Utilizing range() effectively",
+        "break and continue keywords"
+      ],
+      "narration": "Control flow statements are the bedrock of any programmatic logic, dictating the order in which your code executes. We'll delve into the nuances of `if`, `elif`, and `else` for making decisions, and explore `for` and `while` loops for iteration. Pay close attention to the `range()` function, a powerful tool for generating sequences in loops. We'll also see how `break` and `continue` keywords offer fine-grained control over loop execution.",
+      "equations": [],
+      "visual": "flow",
+      "code": "for i in range(5):\n  if i == 2:\n    continue # Skip 2\n  if i == 4:\n    break    # Stop at 4\n  print(i)"
+    },
+    {
+      "slide_number": 4,
+      "title": "Functions: Building Reusable Code",
+      "bullets": [
+        "Defining functions with def",
+        "Parameters: positional and keyword",
+        "Return values and None",
+        "Understanding variable scope"
+      ],
+      "narration": "Functions are critical for organizing your code into reusable blocks, enhancing readability and maintainability. We'll cover how to define your own functions using the `def` keyword, examining both positional and keyword arguments for flexibility. Returning values is how functions communicate their results, and we'll discuss the implicit `None` return. Furthermore, we'll clarify variable scope, distinguishing between local variables within a function and global variables accessible throughout your script.",
+      "equations": [],
+      "visual": "flow",
+      "code": "def calculate_sum(a, b):\n  result = a + b\n  return result\n\nval1 = 5\nval2 = 7\nsum_result = calculate_sum(val1, val2)\nprint(f\"The sum is: {sum_result}\")"
+    },
+    {
+      "slide_number": 5,
+      "title": "Essential Built-in Data Structures",
+      "bullets": [
+        "Lists: ordered, mutable sequences",
+        "Tuples: ordered, immutable sequences",
+        "Dictionaries: key-value pairs",
+        "Sets: unordered collections of unique items"
+      ],
+      "narration": "Python offers incredibly versatile built-in data structures that are essential for efficient data management. We'll differentiate between lists and tuples, highlighting their mutability differences and typical use cases. Dictionaries, with their powerful key-value mapping, are perfect for fast lookups. Lastly, sets provide an efficient way to store unique elements and perform mathematical set operations. Choosing the right data structure can significantly impact your program's performance and clarity.",
+      "equations": [],
+      "visual": "chart",
+      "code": "my_list = [1, 2, 3]\nmy_tuple = (4, 5)\nmy_dict = {'a': 10, 'b': 20}\nmy_set = {1, 2, 2, 3}\nprint(my_list[0], my_tuple[1])\nprint(my_dict['a'], my_set)"
+    },
+    {
+      "slide_number": 6,
+      "title": "Effective Error Handling with Try-Except",
+      "bullets": [
+        "Anticipating runtime errors",
+        "Using try-except blocks",
+        "Handling specific exception types",
+        "Ensuring graceful program execution"
+      ],
+      "narration": "Even the best code can encounter unexpected situations at runtime, leading to errors or 'exceptions.' Python's `try-except` blocks provide a robust mechanism for handling these gracefully, preventing your program from crashing. We'll explore how to wrap potentially problematic code in a `try` block and catch specific exception types, like `ValueError` or `ZeroDivisionError`, using `except`. This ensures that your applications can recover from errors, providing a much better user experience.",
+      "equations": [],
+      "visual": "flow",
+      "code": "try:\n  num = int(input(\"Enter a number: \"))\n  result = 10 / num\n  print(f\"Result: {result}\")\nexcept ZeroDivisionError:\n  print(\"Error: Cannot divide by zero!\")\nexcept ValueError:\n  print(\"Error: Invalid input. Please enter a number.\")"
+    },
+    {
+      "slide_number": 7,
+      "title": "Summary and Next Steps",
+      "bullets": [
+        "Reviewed core Python principles",
+        "Strengthened understanding of data types",
+        "Practiced control flow and functions",
+        "Explored key data structures and error handling"
+      ],
+      "narration": "In this session, we've solidified our understanding of Python fundamentals, moving beyond basic syntax to truly grasp its underlying principles. We've reinforced concepts of dynamic typing and mutability, mastered control flow, and learned to structure code with functions. We also explored the versatility of Python's built-in data structures and the importance of robust error handling. This enhanced foundation will serve you well as you venture into more advanced topics like object-oriented programming, file I/O, and working with external libraries. Keep practicing, and happy coding!",
+      "equations": [],
+      "visual": "none",
+      "code": null
+    }
+  ]
+}

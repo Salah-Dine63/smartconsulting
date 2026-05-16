@@ -1,0 +1,9 @@
+0:00 Intro
+0:04 Introduction: Beyond Basic Syntax – The JVM and Memory Model
+0:36 JVM Architecture: Runtime Data Areas and Execution Engine
+1:15 The Java Memory Model (JMM): Concurrency Semantics
+1:52 Object Lifecycle and Advanced Garbage Collection
+2:33 Class Loading and Runtime Reflection Mechanics
+3:14 Advanced Exception Handling and Resource Management
+3:57 Summary: Foundations for Robust Java Development
+4:38 Outro

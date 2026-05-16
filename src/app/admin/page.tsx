@@ -4,6 +4,11 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { Users, BookOpen, DollarSign, TrendingUp } from "lucide-react"
 import AdminCourseForm from "@/components/AdminCourseForm"
+<<<<<<< Updated upstream
+=======
+import DeleteCourseButton from "@/components/DeleteCourseButton"
+import Link from "next/link"
+>>>>>>> Stashed changes
 
 export default async function AdminPage() {
     const session = await getServerSession(authOptions)
@@ -60,12 +65,15 @@ export default async function AdminPage() {
                         </div>
                         <div className="divide-y divide-slate-800">
                             {courses.map((course) => (
-                                <div key={course.id} className="p-4 flex items-center justify-between">
-                                    <div>
+                                <div key={course.id} className="p-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                                    <div className="flex-1">
                                         <p className="text-sm font-semibold text-white line-clamp-1">{course.title}</p>
                                         <p className="text-xs text-slate-400 mt-0.5">{course._count.enrollments} enrolled</p>
                                     </div>
-                                    <span className="text-sm font-bold text-green-400">${course.price.toLocaleString()}</span>
+                                    <div className="flex items-center">
+                                        <span className="text-sm font-bold text-green-400">${course.price.toLocaleString()}</span>
+                                        <DeleteCourseButton courseId={course.id} />
+                                    </div>
                                 </div>
                             ))}
                         </div>

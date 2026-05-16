@@ -1,0 +1,115 @@
+{
+  "title": "Deep Learning: Architectures, Advancements, and Frontiers",
+  "subject": "Deep learning",
+  "slides": [
+    {
+      "slide_number": 1,
+      "title": "Introduction: Beyond Vanilla ANNs to Deep Architectures",
+      "bullets": [
+        "Transition from shallow perceptrons to multi-layered networks.",
+        "Overcoming limitations: capacity, feature engineering, and expressivity.",
+        "Core principle: hierarchical feature learning from raw data.",
+        "Emergence of specialized architectures for diverse data types."
+      ],
+      "narration": "Deep Learning marks a paradigm shift from traditional machine learning, moving past the limitations of shallow architectures like the original perceptron. The inherent challenge with shallow models lies in their inability to automatically learn intricate, hierarchical representations from raw data, often necessitating extensive manual feature engineering. Deep networks, by contrast, address this through multiple layers of non-linear transformations, enabling them to construct progressively more abstract and useful features, a process vital for complex tasks such as image recognition, natural language processing, and sequential data analysis. This capacity for end-to-end learning of robust representations has unlocked unprecedented performance across numerous domains.",
+      "equations": [],
+      "visual": "neural",
+      "code": null
+    },
+    {
+      "slide_number": 2,
+      "title": "Convolutional Neural Networks (CNNs): Spatial Hierarchies and Inductive Biases",
+      "bullets": [
+        "Local connectivity and weight sharing for spatial feature extraction.",
+        "Translational invariance through pooling layers and shared filters.",
+        "Receptive fields and hierarchical representation learning.",
+        "Advanced architectures: ResNet for deep residual learning, Inception for multi-scale processing."
+      ],
+      "narration": "Convolutional Neural Networks revolutionized computer vision by introducing powerful inductive biases tailored for image data. They leverage local connectivity and weight sharing, meaning that filters are applied across the entire input, efficiently detecting local patterns regardless of their position. This mechanism inherently provides translational invariance and significantly reduces the number of learnable parameters. Deeper CNNs build hierarchical representations, with initial layers detecting edges and textures, and subsequent layers combining these into more complex shapes and objects, overcoming issues like vanishing gradients through innovations like skip connections in ResNets.",
+      "equations": [
+        "$(I \\ast K)(x,y) = \\sum_{u,v} I(x-u, y-v) K(u,v)$"
+      ],
+      "visual": "neural",
+      "code": "import torch\nimport torch.nn as nn\n\nconv_layer = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1)\ninput_image = torch.randn(1, 3, 32, 32) # Batch, Channels, Height, Width\noutput_features = conv_layer(input_image)\nprint(f\"Output shape: {output_features.shape}\")"
+    },
+    {
+      "slide_number": 3,
+      "title": "Recurrent Neural Networks (RNNs): Sequence Modeling and Memory",
+      "bullets": [
+        "Handling sequential data by maintaining internal state.",
+        "Vanishing and exploding gradient problems in simple RNNs.",
+        "Long Short-Term Memory (LSTM) and Gated Recurrent Units (GRU) for long-term dependencies.",
+        "Bidirectional RNNs for incorporating future context."
+      ],
+      "narration": "Recurrent Neural Networks are specifically designed to process sequential data, where the order of information is crucial. Unlike feedforward networks, RNNs possess an internal memory that allows information to persist across steps, enabling them to capture temporal dependencies. However, simple RNNs struggle with long-term dependencies due to vanishing or exploding gradients, making it difficult to learn connections across many time steps. This challenge was largely addressed by architectures like LSTMs and GRUs, which introduce sophisticated gating mechanisms to selectively store or forget information, thereby improving their ability to model complex temporal relationships and long-range context.",
+      "equations": [
+        "$\\vec{h}_t = f(\\mathbf{W}_{hh}\\vec{h}_{t-1} + \\mathbf{W}_{xh}\\vec{x}_t + \\vec{b}_h)$"
+      ],
+      "visual": "flow",
+      "code": "import torch.nn as nn\n\nrnn_layer = nn.LSTM(input_size=10, hidden_size=20, num_layers=2)\ninput_seq = torch.randn(5, 3, 10) # Seq_len, Batch, Features\n# Initial hidden and cell states\nh_0 = torch.randn(2, 3, 20)\nc_0 = torch.randn(2, 3, 20)\noutput, (h_n, c_n) = rnn_layer(input_seq, (h_0, c_0))\nprint(f\"Output shape: {output.shape}\")"
+    },
+    {
+      "slide_number": 4,
+      "title": "Transformers: Global Context and Self-Attention",
+      "bullets": [
+        "Overcoming RNNs' limitations in parallelization and long-range dependency.",
+        "Self-attention mechanism: weighting input sequence elements relative to each other.",
+        "Multi-head attention for capturing diverse relationships.",
+        "Positional encoding for preserving sequence order.",
+        "Encoder-decoder architecture and its role in Large Language Models (LLMs)."
+      ],
+      "narration": "The Transformer architecture, introduced with 'Attention Is All You Need', dramatically changed sequence modeling by entirely eschewing recurrence and convolutions in favor of self-attention mechanisms. This innovation allows the model to weigh the importance of all other elements in a sequence when processing each element, capturing global dependencies regardless of distance, which RNNs struggle with. Multi-head attention further enhances this by enabling the model to jointly attend to information from different representation subspaces. Coupled with positional encodings to inject order information and an efficient parallelizable architecture, Transformers have become the backbone of state-of-the-art Large Language Models and have expanded their influence into computer vision and beyond.",
+      "equations": [
+        "$\\text{Attention}(\\mathbf{Q}, \\mathbf{K}, \\mathbf{V}) = \\text{softmax}\\left(\\frac{\\mathbf{Q}\\mathbf{K}^T}{\\sqrt{d_k}}\\right)\\mathbf{V}$"
+      ],
+      "visual": "flow",
+      "code": "import torch.nn as nn\n\nencoder_layer = nn.TransformerEncoderLayer(d_model=512, nhead=8)\ntransformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=6)\nsrc_tensor = torch.rand(10, 32, 512) # Seq_len, Batch, Embedding_dim\noutput_tensor = transformer_encoder(src_tensor)\nprint(f\"Output shape: {output_tensor.shape}\")"
+    },
+    {
+      "slide_number": 5,
+      "title": "Generative Models: Creating Realistic Data",
+      "bullets": [
+        "Distinction between discriminative (predictive) and generative (synthetic) models.",
+        "Variational Autoencoders (VAEs) for latent space learning and sampling.",
+        "Generative Adversarial Networks (GANs) using a minimax game.",
+        "Diffusion Models: iterative denoising for high-fidelity synthesis.",
+        "Applications: image generation, data augmentation, anomaly detection."
+      ],
+      "narration": "Generative models represent a fascinating subset of deep learning focused on learning the underlying data distribution to create new, realistic samples. Unlike discriminative models that predict labels, generative models aim to synthesize data that closely resembles the training distribution. VAEs achieve this by learning a probabilistic mapping from a latent space, allowing controlled generation and interpolation. GANs, through an adversarial training process between a generator and a discriminator, have pushed the boundaries of photorealistic image synthesis. More recently, diffusion models have emerged, demonstrating unparalleled fidelity by iteratively denoising a signal into a coherent sample, setting new benchmarks in various generative tasks.",
+      "equations": [
+        "$\\mathcal{L}_{\\text{VAE}} = \\mathbb{E}_{q(z|x)}[\\log p(x|z)] - D_{\\text{KL}}(q(z|x) || p(z))$"
+      ],
+      "visual": "ai",
+      "code": null
+    },
+    {
+      "slide_number": 6,
+      "title": "Advanced Concepts & Open Challenges",
+      "bullets": [
+        "Reinforcement Learning with Deep Neural Networks (Deep RL).",
+        "Federated Learning: privacy-preserving distributed training.",
+        "Explainable AI (XAI): understanding model decisions.",
+        "Trustworthy AI: robustness, fairness, and transparency.",
+        "Neuro-symbolic AI and the integration of symbolic reasoning."
+      ],
+      "narration": "The landscape of deep learning is continuously expanding into advanced domains and grappling with critical open challenges. Deep Reinforcement Learning combines the representation power of deep networks with decision-making agents, achieving superhuman performance in complex environments. Federated Learning addresses data privacy by enabling models to train on decentralized datasets without centralizing raw data, critical for sensitive applications. Furthermore, the imperative for 'Trustworthy AI' drives research into Explainable AI (XAI) to demystify black-box models, along with ensuring fairness, robustness against adversarial attacks, and transparency, pushing towards a more responsible and reliable AI ecosystem.",
+      "equations": [],
+      "visual": "brain",
+      "code": null
+    },
+    {
+      "slide_number": 7,
+      "title": "Summary: Deep Learning - A Transformative Paradigm",
+      "bullets": [
+        "Recap of fundamental architectures: CNNs, RNNs, Transformers.",
+        "Impact across diverse fields: vision, language, generative tasks.",
+        "Ongoing research into efficiency, robustness, and interpretability.",
+        "Ethical considerations and the pursuit of generalizable AI."
+      ],
+      "narration": "In conclusion, Deep Learning has undeniably transformed the landscape of artificial intelligence, evolving from basic perceptrons to sophisticated architectures like CNNs, RNNs, and Transformers. These innovations have enabled machines to learn intricate representations directly from raw data, leading to breakthroughs across computer vision, natural language processing, and generative modeling. As we continue to push the boundaries, active research focuses on making these models more efficient, robust, and interpretable, while simultaneously addressing critical ethical implications and the broader quest for more generalizable and human-aligned artificial intelligence.",
+      "equations": [],
+      "visual": "ai",
+      "code": null
+    }
+  ]
+}
