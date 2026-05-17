@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{width:1920px;height:1080px;background:#06061a;
+       font-family:'Segoe UI',Arial,sans-serif;overflow:hidden;
+       display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;}
+  .bg-mesh{position:absolute;inset:0;background:
+    radial-gradient(ellipse 1100px 900px at 50% 50%,rgba(83,74,183,.22) 0%,transparent 58%),
+    radial-gradient(ellipse 400px 300px at 15% 85%,rgba(93,202,165,.1) 0%,transparent 60%);}
+  .bg-grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(127,119,221,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(127,119,221,.045) 1px,transparent 1px);
+    background-size:64px 64px;}
+  .et{position:absolute;top:0;left:0;right:0;height:3px;
+       background:linear-gradient(90deg,#7F77DD,#5DCAA5,#7F77DD);
+       box-shadow:0 0 28px rgba(127,119,221,.8);}
+  .eb{position:absolute;bottom:0;left:0;right:0;height:3px;
+       background:linear-gradient(90deg,#5DCAA5,#7F77DD,#5DCAA5);
+       box-shadow:0 0 28px rgba(93,202,165,.6);}
+  .label{position:relative;z-index:1;font-size:22px;color:#5DCAA5;
+          letter-spacing:.28em;text-transform:uppercase;margin-bottom:32px;
+          opacity:0;animation:fadein .5s .15s ease forwards;}
+  .title{position:relative;z-index:1;font-size:92px;font-weight:700;
+          background:linear-gradient(135deg,#fff 0%,#ccc9f5 55%,#5DCAA5 100%);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+          text-align:center;max-width:1500px;line-height:1.18;
+          opacity:0;transform:translateY(24px);animation:slideup .7s .3s ease forwards;}
+  .line{position:relative;z-index:1;width:0;height:2px;margin-top:44px;
+         background:linear-gradient(90deg,#7F77DD,#5DCAA5,transparent);
+         border-radius:2px;box-shadow:0 0 16px rgba(127,119,221,.55);
+         animation:growline .7s .55s ease forwards;}
+  @keyframes fadein{to{opacity:1}}
+  @keyframes slideup{to{opacity:1;transform:translateY(0)}}
+  @keyframes growline{to{width:700px}}
+</style></head>
+<body>
+  <div class="bg-mesh"></div><div class="bg-grid"></div>
+  <div class="et"></div><div class="eb"></div>
+  <div class="label">Now Learning</div>
+  <div class="title">Python Fundamentals: Beyond the Basics</div>
+  <div class="line"></div>
+</body></html>

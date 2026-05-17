@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{width:1280px;height:720px;background:#06061a;
+       font-family:'Segoe UI',Arial,sans-serif;overflow:hidden;position:relative;
+       display:flex;align-items:center;}
+  .bg-mesh{position:absolute;inset:0;background:
+    radial-gradient(ellipse 800px 600px at 25% 50%,rgba(83,74,183,.28) 0%,transparent 55%),
+    radial-gradient(ellipse 500px 400px at 85% 30%,rgba(93,202,165,.14) 0%,transparent 55%);}
+  .bg-grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(127,119,221,.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(127,119,221,.06) 1px,transparent 1px);
+    background-size:48px 48px;}
+  .el{position:absolute;left:0;top:0;bottom:0;width:8px;
+       background:linear-gradient(180deg,#7F77DD,#5DCAA5);
+       box-shadow:0 0 32px rgba(127,119,221,.9);}
+  .et{position:absolute;top:0;left:0;right:0;height:4px;
+       background:linear-gradient(90deg,#7F77DD,#5DCAA5);
+       box-shadow:0 0 20px rgba(127,119,221,.8);}
+  .r1{position:absolute;width:500px;height:500px;top:-180px;right:-80px;
+       border-radius:50%;border:1px solid rgba(127,119,221,.08);}
+  .content{position:relative;z-index:1;padding:0 72px;display:flex;flex-direction:column;gap:22px;}
+  .badge{display:inline-flex;align-items:center;gap:10px;
+          background:rgba(127,119,221,.14);border:1px solid rgba(127,119,221,.38);
+          border-radius:100px;padding:8px 22px;font-size:16px;color:#AFA9EC;
+          letter-spacing:.12em;text-transform:uppercase;width:fit-content;}
+  .bdot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#7F77DD,#5DCAA5);
+         box-shadow:0 0 8px rgba(127,119,221,.8);}
+  .title{font-size:58px;font-weight:700;
+          background:linear-gradient(135deg,#fff 0%,#ccc9f5 60%,#5DCAA5 100%);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+          line-height:1.15;max-width:960px;}
+  .meta{font-size:20px;color:rgba(175,169,236,.55);letter-spacing:.06em;}
+</style></head>
+<body>
+  <div class="bg-mesh"></div><div class="bg-grid"></div>
+  <div class="el"></div><div class="et"></div><div class="r1"></div>
+  <div class="content">
+    <div class="badge"><div class="bdot"></div>Full Lesson</div>
+    <div class="title">Python Fundamentals: Beyond the Basics</div>
+    <div class="meta">8 slides &nbsp;·&nbsp; AI-generated</div>
+  </div>
+</body></html>

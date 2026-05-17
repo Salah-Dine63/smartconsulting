@@ -14,23 +14,10 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
         }),
-<<<<<<< Updated upstream
-        LinkedInProvider({
-            clientId: process.env.LINKEDIN_CLIENT_ID || "",
-            clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
-            client(clientId, clientSecret) {
-                // To avoid NextAuth LinkedIn Provider issues with newer LinkedIn APIs
-                return {
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                }
-            }
-=======
         AzureADProvider({
             clientId: process.env.AZURE_AD_CLIENT_ID || "",
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET || "",
             tenantId: process.env.AZURE_AD_TENANT_ID || "common",
->>>>>>> Stashed changes
         }),
         CredentialsProvider({
             name: "Credentials",
@@ -39,17 +26,31 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) return null
+                console.log("[AUTH DEBUG] authorize called with email:", credentials?.email)
+                if (!credentials?.email || !credentials?.password) {
+                    console.log("[AUTH DEBUG] Missing email or password in credentials")
+                    return null
+                }
 
                 const user = await prisma.user.findUnique({
-                    where: { email: credentials.email }
+                    where: { email: credentials.email.toLowerCase().trim() }
                 })
 
-                if (!user || !user.password) return null
+                console.log("[AUTH DEBUG] User found in database:", user ? { id: user.id, email: user.email, role: user.role, hasPassword: !!user.password } : "NOT FOUND")
+
+                if (!user || !user.password) {
+                    console.log("[AUTH DEBUG] User not found or has no password")
+                    return null
+                }
 
                 const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
-                if (!isPasswordValid) return null
+                console.log("[AUTH DEBUG] Password validation result:", isPasswordValid)
+                if (!isPasswordValid) {
+                    console.log("[AUTH DEBUG] Password mismatch")
+                    return null
+                }
 
+                console.log("[AUTH DEBUG] Authorization successful for user:", user.email)
                 return { id: user.id, email: user.email, name: user.name, role: user.role }
             }
         })

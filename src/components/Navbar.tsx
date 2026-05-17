@@ -25,10 +25,6 @@ export default function Navbar() {
                 <div className="flex items-center gap-4">
                     {session ? (
                         <>
-<<<<<<< Updated upstream
-                            <Link href="/dashboard">
-                                <Button variant="ghost" className="text-sm font-medium text-slate-700 hover:text-blue-700">Dashboard</Button>
-=======
                             {(session.user as any)?.role === "ADMIN" ? (
                                 <Link href="/admin">
                                     <Button variant="ghost" className="text-sm font-medium text-purple-700 hover:text-purple-800">Admin Panel</Button>
@@ -43,7 +39,6 @@ export default function Navbar() {
                                     {(session.user?.name ?? session.user?.email ?? "?")
                                         .split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)}
                                 </div>
->>>>>>> Stashed changes
                             </Link>
                             <Button onClick={() => signOut()} variant="outline" className="text-sm font-medium border-slate-200">Log out</Button>
                         </>

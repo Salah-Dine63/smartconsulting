@@ -1,0 +1,219 @@
+{
+  "title": "Python Fundamentals: Beyond the Basics",
+  "subject": "Python Fundamentals",
+  "slides": [
+    {
+      "slide_number": 1,
+      "title": "Welcome to Python Fundamentals: Beyond the Basics",
+      "bullets": [
+        "Review core Python concepts for intermediate understanding.",
+        "Explore advanced data structures and their use cases.",
+        "Master function definitions, arguments, and functional programming aspects.",
+        "Dive into Object-Oriented Programming (OOP) principles in Python.",
+        "Learn robust error handling, file I/O, and module management."
+      ],
+      "narration": "Python, celebrated for its readability and versatility, forms the backbone of countless applications. For those beyond the beginner stage, understanding its fundamental nuances unlocks greater programming efficiency and problem-solving capabilities. In this lesson, we'll transcend basic syntax, delving into the powerful features that empower professional Python development. We'll cover advanced data structures, sophisticated function handling, object-oriented paradigms, and best practices for error management and code organization.",
+      "study_guide": "Python, often lauded for its simplicity, conceals a depth of features critical for developing scalable and maintainable applications. This course aims to solidify your understanding of these core principles, moving beyond basic variable assignment, control flow, and rudimentary data types. We will explore how Python's design choices, such as dynamic typing and powerful built-in functions, can be leveraged effectively. A strong grasp of these intermediate fundamentals is not merely about writing correct code, but about writing elegant, efficient, and Pythonic code. This involves understanding the 'why' behind certain language constructs and patterns, preparing you for more advanced topics like web development, data science, or automation.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": null,
+      "quiz": {
+        "question": "What is the primary focus of this intermediate Python fundamentals course?",
+        "options": [
+          "A) Introduction to basic Python syntax.",
+          "B) Deep dive into advanced data science libraries.",
+          "C) Enhancing programming efficiency through core Python features.",
+          "D) Learning web development frameworks."
+        ],
+        "correct_index": 2,
+        "explanation": "The course aims to enhance programming efficiency by exploring core Python features beyond basic syntax, preparing learners for professional development."
+      }
+    },
+    {
+      "slide_number": 2,
+      "title": "Beyond Lists: Tuples, Sets, and Dictionaries",
+      "bullets": [
+        "Tuples: Immutable, ordered sequences for fixed data collections.",
+        "Sets: Unordered collections of unique elements for membership testing and mathematical operations.",
+        "Dictionaries: Key-value pairs for efficient data retrieval by unique keys.",
+        "List Comprehensions: Concise syntax for creating lists from iterables."
+      ],
+      "narration": "While lists are incredibly versatile, Python offers other powerful built-in data structures tailored for specific use cases. Tuples, being immutable, are ideal for data that shouldn't change, like coordinates or database records. Sets provide efficient ways to handle unique items and perform set-theoretic operations such as unions and intersections. Dictionaries, with their key-value mapping, are perfect for fast lookups and representing structured data like JSON objects. Understanding when to use each significantly optimizes code performance and readability.",
+      "study_guide": "Python's rich ecosystem of built-in data structures extends beyond the ubiquitous list. Tuples are ordered, immutable collections, meaning once created, their elements cannot be changed, added, or removed. This immutability makes them suitable as dictionary keys, for returning multiple values from a function, and for ensuring data integrity. Sets are unordered collections of unique elements, useful for quickly checking for membership, eliminating duplicates from a sequence, and performing standard mathematical set operations like union (`|`), intersection (`&`), difference (`-`), and symmetric difference (`^`). Dictionaries are mutable, unordered collections of key-value pairs, where each key must be unique and immutable. They offer O(1) average time complexity for lookup, insertion, and deletion, making them extremely efficient for storing and retrieving data based on specific identifiers. List comprehensions provide a concise and efficient way to create lists, often in a single line, by applying an expression to each item in an iterable, optionally filtering items.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "user_data = {\"name\": \"Alice\", \"age\": 30}\nprint(user_data[\"name\"])\n\nnumbers = [1, 2, 2, 3, 4, 4, 5]\nunique_numbers = set(numbers)\nprint(unique_numbers)",
+      "quiz": {
+        "question": "Which Python data structure is designed for storing unique, unordered elements and efficiently performing set operations?",
+        "options": [
+          "A) List",
+          "B) Tuple",
+          "C) Dictionary",
+          "D) Set"
+        ],
+        "correct_index": 3,
+        "explanation": "Sets are specifically designed to store unique elements and provide efficient operations for mathematical set theory."
+      }
+    },
+    {
+      "slide_number": 3,
+      "title": "Crafting Reusable Code: Functions, *args, **kwargs, and Lambdas",
+      "bullets": [
+        "Function Definition: Using `def` for modular, reusable code blocks.",
+        "Positional and Keyword Arguments: Understanding parameter passing methods.",
+        "Arbitrary Arguments (`*args`, `**kwargs`): Handling flexible numbers of arguments.",
+        "Lambda Functions: Creating small, anonymous functions for concise operations."
+      ],
+      "narration": "Functions are the bedrock of structured programming, enabling modularity and reusability. Beyond simple definitions, Python offers powerful features like arbitrary argument lists, `*args` for positional arguments, and `**kwargs` for keyword arguments, allowing functions to accept a variable number of inputs. Lambda functions, while constrained to a single expression, provide a concise way to define small, throwaway functions often used with higher-order functions like `map`, `filter`, or `sorted`. Mastering these aspects significantly enhances code flexibility and elegance.",
+      "study_guide": "Functions in Python are first-class objects, meaning they can be passed as arguments to other functions, returned as values from other functions, and assigned to variables. This flexibility is fundamental to functional programming paradigms. Understanding how arguments are passed is crucial: positional arguments are matched by order, while keyword arguments are matched by name. `*args` allows a function to accept an arbitrary number of positional arguments, which are then collected into a tuple. `**kwargs` allows a function to accept an arbitrary number of keyword arguments, collected into a dictionary. This is particularly useful for creating highly configurable functions. Lambda functions are anonymous, inline functions defined using the `lambda` keyword. They are restricted to a single expression and implicitly return the result of that expression. They are commonly used when a small function is needed for a short period and defining a full `def` function would be overly verbose.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "def greet(*names, **kwargs):\n    for name in names:\n        print(f\"Hello {name}\")\n    if \"message\" in kwargs:\n        print(f\"Message: {kwargs['message']}\")\n\ngreet(\"Alice\", \"Bob\", message=\"Welcome!\")\n\nadd_ten = lambda x: x + 10\nprint(add_ten(5))",
+      "quiz": {
+        "question": "What is the primary purpose of using `*args` and `**kwargs` in a Python function definition?",
+        "options": [
+          "A) To define optional parameters that have default values.",
+          "B) To allow a function to accept an arbitrary number of positional and keyword arguments.",
+          "C) To enforce strict type checking on function arguments.",
+          "D) To define generator functions for lazy evaluation."
+        ],
+        "correct_index": 1,
+        "explanation": "`*args` collects an arbitrary number of positional arguments into a tuple, and `**kwargs` collects an arbitrary number of keyword arguments into a dictionary, providing flexibility in function signatures."
+      }
+    },
+    {
+      "slide_number": 4,
+      "title": "Structuring with Classes: OOP Principles in Python",
+      "bullets": [
+        "Classes and Objects: Blueprints and instances for real-world entities.",
+        "Encapsulation: Bundling data and methods within an object.",
+        "Inheritance: Creating new classes from existing ones, promoting code reuse.",
+        "Polymorphism: Objects taking on many forms, enabling flexible interfaces.",
+        "Special Methods (`__init__`, `__str__`): Customizing object behavior."
+      ],
+      "narration": "Object-Oriented Programming (OOP) provides a powerful paradigm for structuring complex applications by modeling real-world entities as objects. In Python, classes serve as blueprints for creating objects, encapsulating data (attributes) and behavior (methods) together. Inheritance allows new classes to reuse and extend functionality from existing ones, fostering a hierarchical structure. Polymorphism, through method overriding and operator overloading, enables objects of different classes to be treated through a common interface, significantly enhancing code flexibility and maintainability.",
+      "study_guide": "Object-Oriented Programming (OOP) is a programming paradigm based on the concept of \"objects\", which can contain data and code: data in the form of fields (attributes or properties), and code in the form of procedures (methods). Python is an object-oriented language, and almost everything in Python is an object, with its properties and methods.\n\nClasses are user-defined blueprints or prototypes from which objects are created. They provide a means of bundling data and functionality together.\n\nObjects are instances of a class. When a class is defined, no memory is allocated until an object of that class is created.\n\nEncapsulation is the binding of data (attributes) and the methods that operate on the data into a single unit (class). It restricts direct access to some of an object's components, which can prevent accidental modification of data.\n\nInheritance is a mechanism that allows a new class (subclass/derived class) to inherit attributes and methods from an existing class (superclass/base class). This promotes code reuse and establishes a natural hierarchy.\n\nPolymorphism (meaning \"many forms\") allows objects of different classes to be treated as objects of a common superclass. This is often achieved through method overriding, where a subclass provides its own implementation of a method that is already defined in its superclass.\n\nSpecial methods, also known as \"dunder methods\" (e.g., `__init__`, `__str__`, `__len__`), allow Python to emulate the behavior of built-in types. `__init__` is the constructor, called when an object is created. `__str__` defines the string representation of an object.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n    def speak(self):\n        raise NotImplementedError\n\nclass Dog(Animal):\n    def speak(self):\n        return f\"{self.name} says Woof!\"\n\nmy_dog = Dog(\"Buddy\")\nprint(my_dog.speak())",
+      "quiz": {
+        "question": "Which OOP principle in Python allows a new class to acquire attributes and methods from an existing class?",
+        "options": [
+          "A) Encapsulation",
+          "B) Polymorphism",
+          "C) Abstraction",
+          "D) Inheritance"
+        ],
+        "correct_index": 3,
+        "explanation": "Inheritance is the OOP principle that enables a new class (subclass) to inherit attributes and methods from an existing class (superclass), promoting code reuse and hierarchy."
+      }
+    },
+    {
+      "slide_number": 5,
+      "title": "Robust Code: Exception Handling and Basic Debugging",
+      "bullets": [
+        "Exceptions: Understanding different types of runtime errors.",
+        "`try-except` Blocks: Gracefully handling anticipated errors.",
+        "`finally` Clause: Ensuring cleanup code always executes.",
+        "Raising Custom Exceptions: Tailoring error messages for specific scenarios.",
+        "Basic Debugging: Using `print()` statements and `pdb` for inspection."
+      ],
+      "narration": "Building robust applications requires effective error handling. Python's `try-except` blocks allow us to gracefully manage runtime errors, preventing program crashes. The `finally` clause guarantees that critical cleanup operations, like closing files, are executed regardless of whether an exception occurred. For more specific error conditions, we can raise custom exceptions, providing clearer feedback to users or other developers. While sophisticated debuggers exist, simple `print()` statements and Python's built-in `pdb` module are invaluable tools for inspecting program state and tracking down issues.",
+      "study_guide": "Error handling is a critical aspect of writing reliable software. Python signals errors through exceptions, which are objects that derive from `BaseException`. When an error occurs, an exception is \"raised,\" interrupting the normal flow of the program. The `try-except` statement is used to catch and handle these exceptions. Code within the `try` block is executed, and if an exception occurs, the code within the corresponding `except` block is executed. This prevents the program from terminating abruptly. Multiple `except` blocks can be used to handle different types of exceptions, or a generic `except` can catch all exceptions. The `finally` block, if present, always executes after the `try` block and any `except` or `else` blocks, regardless of whether an exception was raised or caught. This makes it ideal for releasing external resources like file handles or network connections. Custom exceptions, created by inheriting from `Exception`, allow developers to define application-specific errors that provide more context. Debugging involves finding and fixing errors. While `print()` statements are a simple way to inspect variables, Python's built-in `pdb` (Python Debugger) module offers more powerful features like setting breakpoints, stepping through code, and examining the call stack, providing a more structured approach to problem-solving.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")\nexcept Exception as e:\n    print(f\"An unexpected error occurred: {e}\")\nfinally:\n    print(\"Execution complete, clean up.\")",
+      "quiz": {
+        "question": "What is the purpose of the `finally` block in Python's exception handling?",
+        "options": [
+          "A) It executes only if no exception occurs in the `try` block.",
+          "B) It executes only if an exception occurs and is caught.",
+          "C) It guarantees execution of its code, regardless of whether an exception occurred or was handled.",
+          "D) It is used to define custom exceptions."
+        ],
+        "correct_index": 2,
+        "explanation": "The `finally` block ensures that its code is always executed, making it suitable for cleanup operations that must occur regardless of exception status."
+      }
+    },
+    {
+      "slide_number": 6,
+      "title": "Interacting with Files: I/O Operations and `with` Statement",
+      "bullets": [
+        "File Modes: Understanding `r`, `w`, `a`, `x`, `b`, `t` for various operations.",
+        "Reading and Writing: `read()`, `readline()`, `readlines()`, `write()`, `writelines()`.",
+        "`with` Statement (Context Managers): Ensuring resources are properly managed and closed.",
+        "Binary vs. Text Mode: Distinguishing data handling for different file types."
+      ],
+      "narration": "Interacting with the file system is a common requirement for many applications. Python provides straightforward functions for reading from and writing to files. Crucially, the `with` statement, leveraging context managers, simplifies file handling by automatically closing the file even if errors occur, preventing resource leaks. Understanding different file modes, such as text versus binary, is essential for correctly processing various data formats, from plain text to images or executables, ensuring data integrity and preventing corruption.",
+      "study_guide": "File Input/Output (I/O) operations are fundamental for persistent data storage and retrieval. Python's built-in `open()` function is the gateway to file manipulation, returning a file object. The second argument to `open()` specifies the *mode*: `'r'` for reading (default), `'w'` for writing (creates new file or truncates existing), `'a'` for appending, `'x'` for exclusive creation, and `'b'` for binary mode, `'t'` for text mode (default). For example, `'wb'` opens a file for writing in binary mode.\n\nReading methods include `read()` (reads entire file or N bytes), `readline()` (reads one line), and `readlines()` (reads all lines into a list).\n\nWriting methods include `write()` (writes a string/bytes) and `writelines()` (writes a list of strings/bytes).\n\nThe most Pythonic and safest way to handle files is using the `with` statement. This ensures that the file is properly closed after its block of code is executed, even if errors occur, eliminating the need for explicit `f.close()` calls and preventing resource leaks. This is an example of a \"context manager\" in Python, where `__enter__` and `__exit__` methods are automatically called. Text mode is for human-readable files, handling encoding and line endings, while binary mode processes raw bytes without interpretation, suitable for non-textual files like images, executables, or compressed archives.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "# Writing to a file using a context manager\nwith open(\"example.txt\", \"w\") as f:\n    f.write(\"Hello, Python!\\n\")\n    f.write(\"File I/O is easy.\")\n\n# Reading from the file\nwith open(\"example.txt\", \"r\") as f:\n    content = f.read()\n    print(content)",
+      "quiz": {
+        "question": "What is the primary benefit of using the `with` statement for file operations in Python?",
+        "options": [
+          "A) It automatically handles character encoding for all files.",
+          "B) It ensures the file is automatically closed, even if errors occur.",
+          "C) It provides faster read/write operations than traditional `open()` and `close()`.",
+          "D) It allows simultaneous reading and writing to the same file."
+        ],
+        "correct_index": 1,
+        "explanation": "The `with` statement, using context managers, guarantees that a file's `close()` method is called automatically, even if exceptions are raised, preventing resource leaks."
+      }
+    },
+    {
+      "slide_number": 7,
+      "title": "Organizing Code: Modules, Packages, and Imports",
+      "bullets": [
+        "Modules: Python files containing definitions and statements.",
+        "Packages: Directories containing modules and an `__init__.py` file.",
+        "Import Statements: `import`, `from ... import`, `as` for alias.",
+        "Standard Library: Leveraging built-in modules for common tasks.",
+        "Relative vs. Absolute Imports: Navigating project structures effectively."
+      ],
+      "narration": "As projects grow, organizing code into logical units becomes essential. Modules, which are simply Python files, allow us to encapsulate related functions, classes, and variables. Packages, structured as directories containing modules and an `__init__.py` file, provide a hierarchical way to group related modules. Python's flexible `import` statements enable us to bring these external definitions into our current scope, whether from the extensive standard library or our own custom code, promoting reusability and maintainability.",
+      "study_guide": "Code organization is paramount for large-scale projects, and Python's module and package system provides an elegant solution.\n\nA **module** is a file containing Python definitions and statements. The file name is the module name with the `.py` suffix. Modules can define functions, classes, and variables. They allow for logical organization of code and prevention of name clashes.\n\nA **package** is a way of organizing related modules into a single directory hierarchy. A directory becomes a Python package if it contains a special file named `__init__.py` (which can be empty). Packages can contain subpackages and modules.\n\n**Import statements** (`import module_name`, `from module_name import name1, name2`, `import module_name as alias`) bring definitions from modules into the current namespace. `import module_name` imports the entire module, while `from ... import` imports specific names. The `as` keyword creates an alias.\n\nThe **Python Standard Library** is a vast collection of modules that comes bundled with Python, offering solutions for numerous tasks like math operations (`math`), date/time (`datetime`), regular expressions (`re`), and file system access (`os`, `shutil`).\n\n**Absolute imports** specify the full path from the project root (e.g., `import package.module`), while **relative imports** use dots to specify the current package and its siblings/children (e.g., `from . import sibling_module`, `from .. import parent_module`). Relative imports are typically used within a package to keep code self-contained.",
+      "equations": [],
+      "visual": "CS/CODE",
+      "code": "# my_package/\n# ├── __init__.py\n# └── greetings.py (contains def say_hello())\n\n# In another file:\nfrom my_package.greetings import say_hello\nimport math\n\nprint(say_hello(\"World\"))\nprint(math.sqrt(16))",
+      "quiz": {
+        "question": "What is the primary purpose of the `__init__.py` file within a directory in Python?",
+        "options": [
+          "A) It is where all the main application logic resides.",
+          "B) It marks the directory as a Python package.",
+          "C) It automatically executes code when the package is imported.",
+          "D) It stores package-specific configuration settings."
+        ],
+        "correct_index": 1,
+        "explanation": "The `__init__.py` file, even if empty, signals to Python that the directory should be treated as a package, allowing its modules to be imported."
+      }
+    },
+    {
+      "slide_number": 8,
+      "title": "Conclusion: Mastering Intermediate Python",
+      "bullets": [
+        "Leveraged advanced data structures for efficient data management.",
+        "Enhanced code reusability with flexible functions and lambdas.",
+        "Applied OOP principles for structured and scalable application design.",
+        "Implemented robust error handling and basic debugging techniques.",
+        "Managed files effectively and organized code using modules and packages."
+      ],
+      "narration": "Throughout this lesson, we've navigated the essential landscape of intermediate Python fundamentals, moving beyond basic syntax to embrace powerful tools and paradigms. We explored how tuples, sets, and dictionaries offer specialized solutions for data organization. We deepened our understanding of functions, utilizing `*args`, `**kwargs`, and lambdas for greater flexibility. We then ventured into the world of Object-Oriented Programming, learned to manage errors gracefully, and mastered efficient file I/O and code modularity. These concepts collectively form the bedrock for developing sophisticated, maintainable, and efficient Python applications.",
+      "study_guide": "This comprehensive overview of Python fundamentals for an intermediate audience aimed to consolidate and expand your existing knowledge. We started by differentiating and applying advanced data structures like tuples (immutable sequences), sets (unique, unordered elements), and dictionaries (key-value mappings), recognizing their optimal use cases. The discussion on functions extended to variable arguments (`*args`, `**kwargs`) and anonymous lambda functions, crucial for writing flexible and concise code, especially in conjunction with higher-order functions. Object-Oriented Programming (OOP) was introduced as a powerful paradigm for structuring complex codebases, covering classes, objects, inheritance, encapsulation, and polymorphism, along with important dunder methods. We also delved into making code more robust by handling exceptions with `try-except-finally` blocks and utilizing Python's `pdb` for effective debugging. Finally, we covered file input/output using the safe `with` statement and explored how to organize code into reusable modules and hierarchical packages, promoting maintainability and collaboration in larger projects. Continuously practicing these concepts with real-world problems is key to truly mastering them and transitioning into advanced Python development.",
+      "equations": [],
+      "visual": "OTHER",
+      "code": null,
+      "quiz": {
+        "question": "Which of the following topics was NOT explicitly covered in this intermediate Python fundamentals lesson?",
+        "options": [
+          "A) Advanced Data Structures",
+          "B) Decorators and Generators",
+          "C) Object-Oriented Programming",
+          "D) File I/O and Context Managers"
+        ],
+        "correct_index": 1,
+        "explanation": "While related to functions, decorators and generators are typically considered more advanced topics that were not explicitly detailed in this lesson focused on core fundamentals."
+      }
+    }
+  ]
+}

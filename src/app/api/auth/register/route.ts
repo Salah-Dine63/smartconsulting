@@ -11,7 +11,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Email and password required" }, { status: 400 })
         }
 
-        const existingUser = await prisma.user.findUnique({ where: { email } })
+        const normalizedEmail = email.toLowerCase().trim()
+
+        const existingUser = await prisma.user.findUnique({ where: { email: normalizedEmail } })
         if (existingUser) {
             return NextResponse.json({ message: "User already exists" }, { status: 400 })
         }
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
         const user = await prisma.user.create({
             data: {
                 name,
-                email,
+                email: normalizedEmail,
                 password: hashedPassword,
             }
         })

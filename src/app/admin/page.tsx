@@ -4,11 +4,8 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { Users, BookOpen, DollarSign, TrendingUp } from "lucide-react"
 import AdminCourseForm from "@/components/AdminCourseForm"
-<<<<<<< Updated upstream
-=======
 import DeleteCourseButton from "@/components/DeleteCourseButton"
 import Link from "next/link"
->>>>>>> Stashed changes
 
 export default async function AdminPage() {
     const session = await getServerSession(authOptions)
