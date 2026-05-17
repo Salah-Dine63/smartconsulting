@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1920px; height:1080px; background:#1a202c;
+    font-family:'Segoe UI',Arial,sans-serif; overflow:hidden; position:relative;
+  }
+  .bg-mesh {
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 900px 700px at 5% 50%,  rgba(45,55,72,0.18)  0%,transparent 65%),
+      radial-gradient(ellipse 600px 500px at 95% 15%, rgba(160,174,192,0.10) 0%,transparent 65%),
+      radial-gradient(ellipse 500px 400px at 70% 95%, rgba(74,85,104,0.07) 0%,transparent 65%);
+  }
+  .bg-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(74,85,104,0.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(74,85,104,0.045) 1px,transparent 1px);
+    background-size:64px 64px;
+  }
+  .edge-top {
+    position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#4a5568,#a0aec0,#4a5568);
+    box-shadow:0 0 24px rgba(74,85,104,0.7);
+  }
+  .edge-left {
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:linear-gradient(180deg,transparent 5%,#4a5568 35%,#a0aec0 65%,transparent 95%);
+    box-shadow:0 0 20px rgba(74,85,104,0.5);
+  }
+  .ring {
+    position:absolute; border-radius:50%;
+    border:1px solid rgba(74,85,104,0.09);
+    opacity:0; animation:fadein .4s ease forwards;
+  }
+  .r1 { width:700px;height:700px;top:-250px;right:-100px;animation-delay:.05s; }
+  .r2 { width:480px;height:480px;top:-100px;right:60px;border-color:rgba(160,174,192,0.07);animation-delay:.1s; }
+  .r3 { width:240px;height:240px;bottom:80px;right:260px;animation-delay:.15s; }
+  .dot-grid {
+    position:absolute; top:90px; right:70px;
+    display:grid; grid-template-columns:repeat(10,1fr); gap:20px;
+    opacity:0; animation:fadein .5s .2s ease forwards;
+  }
+  .fdot { width:3px;height:3px;border-radius:50%;background:rgba(74,85,104,0.4); }
+  .fdot:nth-child(3n) { background:rgba(160,174,192,0.35); }
+  .fdot:nth-child(7n) { background:rgba(74,85,104,0.6); }
+  .tag {
+    display:inline-flex; align-items:center; gap:10px;
+    background:rgba(74,85,104,0.10); border:1px solid rgba(74,85,104,0.35);
+    border-radius:100px; padding:8px 26px;
+    font-size:19px; color:#718096; letter-spacing:0.12em; text-transform:uppercase;
+    width:fit-content; margin-bottom:26px;
+    opacity:0; transform:translateY(14px); animation:slideup .4s .05s ease forwards;
+  }
+  .tag-dot { width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#4a5568,#a0aec0);box-shadow:0 0 8px rgba(74,85,104,.8); }
+  .title {
+    font-size:62px; font-weight:700;
+    background:linear-gradient(135deg,#ffffff 0%,#a0aec0 55%,#a0aec0 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    line-height:1.18; margin-bottom:20px;
+    opacity:0; transform:translateY(14px); animation:slideup .4s .12s ease forwards;
+  }
+  .divider {
+    width:0; height:2px;
+    background:linear-gradient(90deg,#4a5568,#a0aec0,transparent);
+    border-radius:2px; margin-bottom:36px;
+    box-shadow:0 0 14px rgba(74,85,104,.45);
+    animation:growline .5s .28s ease forwards;
+  }
+  .cards { display:flex; flex-direction:column; gap:16px; }
+  .card {
+    display:flex; align-items:center; gap:26px;
+    background:rgba(74,85,104,0.055);
+    border:1px solid rgba(74,85,104,0.18);
+    border-left:3px solid var(--lb,#4a5568);
+    border-radius:18px; padding:18px 28px;
+    opacity:0; transform:translateX(36px); animation:cardin .42s ease forwards;
+    box-shadow:0 6px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+    position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,85,104,.5) 40%,rgba(160,174,192,.3) 70%,transparent);
+  }
+  .badge {
+    min-width:48px; height:48px; border-radius:13px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px; font-weight:700; color:#fff; flex-shrink:0;
+    box-shadow:0 4px 18px rgba(74,85,104,.45); letter-spacing:.05em;
+  }
+  .card-text { font-size:34px; color:#cbd5e0; line-height:1.4; }
+  .slide-num {
+    position:absolute; bottom:28px; right:56px;
+    font-size:20px; color:rgba(74,85,104,.45); font-family:monospace; letter-spacing:.12em;
+  }
+  .progress-dots {
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; opacity:0; animation:fadein .4s .6s ease forwards;
+  }
+  .pdot {
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(74,85,104,0.2); border:1px solid rgba(74,85,104,.3);
+  }
+  .pdot.active {
+    background:linear-gradient(135deg,#4a5568,#a0aec0);
+    box-shadow:0 0 10px rgba(74,85,104,.7); width:24px; border-radius:4px;
+  }
+  .progress-bar {
+    position:absolute; bottom:0; left:0; height:3px;
+    background:linear-gradient(90deg,#2d3748,#4a5568,#a0aec0);
+    box-shadow:0 0 14px rgba(74,85,104,.6);
+    opacity:0; animation:fadein .4s .3s ease forwards;
+  }
+  @keyframes fadein  { to { opacity:1; } }
+  @keyframes slideup { to { opacity:1; transform:translateY(0); } }
+  @keyframes growline { to { width:460px; } }
+  @keyframes cardin  { to { opacity:1; transform:translateX(0); } }
+
+
+        .content {
+          position:absolute; top:70px; left:110px; right:90px; bottom:70px;
+          display:flex; flex-direction:column; justify-content:center;
+        }
+        
+</style></head>
+<body>
+  <div class="bg-mesh"></div><div class="bg-grid"></div>
+  <div class="edge-top"></div><div class="edge-left"></div>
+  <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <div class="dot-grid"><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div><div class="fdot"></div></div>
+  <div class="content">
+        <div class="tag"><div class="tag-dot"></div>Summary</div>
+        <div class="title">Summary: Architecting Robust Java Solutions</div>
+        <div class="divider"></div>
+        <div class="cards">
+        <div class="card" style="animation-delay:0.35s;--lb:#a0aec0">
+          <div class="badge" style="background:linear-gradient(135deg,#a0aec0,#3a9e82)">01</div>
+          <div class="card-text">JVM Mastery: Foundation for performance and stability.</div>
+        </div>
+        <div class="card" style="animation-delay:0.47s;--lb:#a0aec0">
+          <div class="badge" style="background:linear-gradient(135deg,#a0aec0,#3a9e82)">02</div>
+          <div class="card-text">Principled Concurrency: Building thread-safe and scalable applications.</div>
+        </div>
+        <div class="card" style="animation-delay:0.59s;--lb:#a0aec0">
+          <div class="badge" style="background:linear-gradient(135deg,#a0aec0,#3a9e82)">03</div>
+          <div class="card-text">Effective Type Management: Leveraging generics for safety and reusability.</div>
+        </div>
+        <div class="card" style="animation-delay:0.71s;--lb:#a0aec0">
+          <div class="badge" style="background:linear-gradient(135deg,#a0aec0,#3a9e82)">04</div>
+          <div class="card-text">Functional Expressiveness: Modernizing data processing with Lambdas and Streams.</div>
+        </div>
+        <div class="card" style="animation-delay:0.83s;--lb:#a0aec0">
+          <div class="badge" style="background:linear-gradient(135deg,#a0aec0,#3a9e82)">05</div>
+          <div class="card-text">Metaprogramming Utility: Enhancing flexibility and code generation with Reflection and Annotations.</div>
+        </div></div></div>
+  <div class="slide-num">07 / 07</div>
+  <div class="progress-dots"><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot  active"></div></div>
+  <div class="progress-bar" style="width:100%"></div>
+</body></html>

@@ -15,6 +15,10 @@ from run import run_pipeline
 
 app = FastAPI(title="SmartConsulting Video API", version="1.0.0")
 
+@app.on_event("startup")
+def startup_event():
+    load_jobs_from_disk()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,6 +29,58 @@ app.add_middleware(
 
 # In-memory job store: job_id -> state dict
 jobs: dict[str, dict] = {}
+
+
+def load_jobs_from_disk():
+    output_dir = Path("output")
+    if not output_dir.exists():
+        return
+    
+    import json
+    for job_dir in output_dir.iterdir():
+        if job_dir.is_dir():
+            job_id = job_dir.name
+            script_path = job_dir / "script.json"
+            if script_path.exists() and job_id not in jobs:
+                try:
+                    with open(script_path, "r", encoding="utf-8") as f:
+                        script = json.load(f)
+                    subject = script.get("subject") or script.get("title") or "Unknown"
+                    
+                    # Generate module details
+                    modules_data = []
+                    for slide in script.get("slides", []):
+                        num = slide["slide_number"]
+                        modules_data.append({
+                            "title": slide["title"],
+                            "description": slide.get("study_guide", slide["narration"]),
+                            "videoUrl": f"/files/{job_id}/part_{num:03d}.mp4",
+                            "quiz": slide.get("quiz")
+                        })
+
+                    # Get creation time
+                    created_at = script_path.stat().st_mtime
+                    
+                    thumbnail = job_dir / "slides" / "thumbnail.png"
+                    
+                    jobs[job_id] = {
+                        "id": job_id,
+                        "subject": subject,
+                        "theme": "dark-purple", # Default
+                        "level": "intermediate",
+                        "status": "done",
+                        "progress": 100,
+                        "step": "Video ready!",
+                        "video_url": f"/files/{job_id}/lesson.mp4",
+                        "modules": modules_data,
+                        "thumbnail_url": f"/files/{job_id}/thumbnail.png" if thumbnail.exists() else None,
+                        "created_at": created_at,
+                        "_video_path": str((job_dir / "lesson.mp4").resolve()),
+                        "_base": f"output/{job_id}",
+                    }
+                except Exception as e:
+                    print(f"Failed to restore job {job_id}: {e}")
+
 
 
 class GenerateRequest(BaseModel):
@@ -163,16 +219,14 @@ def status(job_id: str):
 
 @app.get("/files/{job_id}/{filename}")
 def serve_file(job_id: str, filename: str):
-    if job_id not in jobs:
-        raise HTTPException(status_code=404, detail="Job not found")
-
-    j = jobs[job_id]
-    base = j["_base"]
-
+    # Try to serve file even if server restarted and job is not in active memory
+    base = f"output/{job_id}"
+    
     if filename == "lesson.mp4":
-        # Prefer the exact path returned by run_pipeline
-        raw = j.get("_video_path")
-        file_path = Path(raw) if raw else Path(base) / "lesson.mp4"
+        if job_id in jobs and jobs[job_id].get("_video_path"):
+            file_path = Path(jobs[job_id]["_video_path"])
+        else:
+            file_path = Path(base) / "lesson.mp4"
     elif filename.startswith("part_") and filename.endswith(".mp4"):
         file_path = Path(base) / filename
     elif filename == "thumbnail.png":
@@ -181,7 +235,7 @@ def serve_file(job_id: str, filename: str):
         raise HTTPException(status_code=400, detail="Unknown file")
 
     if not file_path.exists():
-        raise HTTPException(status_code=404, detail="File not found yet")
+        raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(str(file_path))
 

@@ -25,10 +25,18 @@ export default function Navbar() {
                 <div className="flex items-center gap-4">
                     {session ? (
                         <>
-                            {(session.user as any)?.role === "ADMIN" ? (
-                                <Link href="/admin">
-                                    <Button variant="ghost" className="text-sm font-medium text-purple-700 hover:text-purple-800">Admin Panel</Button>
-                                </Link>
+                            {(session.user as { role?: string })?.role === "ADMIN" ? (
+                                <div className="flex items-center gap-2">
+                                    <Link href="/admin/video-generator">
+                                        <Button variant="ghost" className="text-sm font-medium text-indigo-700 hover:text-indigo-800 flex items-center gap-1.5 bg-indigo-50/50">
+                                            <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
+                                            AI Generator
+                                        </Button>
+                                    </Link>
+                                    <Link href="/admin">
+                                        <Button variant="ghost" className="text-sm font-medium text-purple-700 hover:text-purple-800">Admin Panel</Button>
+                                    </Link>
+                                </div>
                             ) : (
                                 <Link href="/dashboard">
                                     <Button variant="ghost" className="text-sm font-medium text-slate-700 hover:text-blue-700">Dashboard</Button>
