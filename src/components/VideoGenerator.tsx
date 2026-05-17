@@ -38,11 +38,11 @@ interface CreatedCourse {
 }
 
 const THEMES = [
-    { id: "dark-purple", name: "Dark Purple", desc: "Elegant neon violet", dot: "bg-purple-600", border: "border-purple-200", glow: "shadow-purple-100/30" },
-    { id: "ocean", name: "Ocean Blue", desc: "Modern deep teal", dot: "bg-cyan-500", border: "border-cyan-200", glow: "shadow-cyan-100/30" },
-    { id: "corporate", name: "Corporate", desc: "Sleek slate blue", dot: "bg-blue-600", border: "border-blue-200", glow: "shadow-blue-100/30" },
-    { id: "minimal", name: "Minimal Carbon", desc: "Pure slate grey", dot: "bg-slate-400", border: "border-slate-200", glow: "shadow-slate-100/30" },
-    { id: "forest", name: "Emerald Forest", desc: "Premium organic moss", dot: "bg-emerald-600", border: "border-emerald-200", glow: "shadow-emerald-100/30" },
+    { id: "dark-purple", name: "Dark Purple", desc: "Elegant neon violet", dot: "bg-purple-600", border: "border-purple-200 dark:border-purple-900/30", glow: "shadow-purple-100/10 dark:shadow-purple-950/10" },
+    { id: "ocean", name: "Ocean Blue", desc: "Modern deep teal", dot: "bg-cyan-500", border: "border-cyan-200 dark:border-cyan-900/30", glow: "shadow-cyan-100/10 dark:shadow-cyan-950/10" },
+    { id: "corporate", name: "Corporate", desc: "Sleek slate blue", dot: "bg-blue-600", border: "border-blue-200 dark:border-blue-900/30", glow: "shadow-blue-100/10 dark:shadow-blue-950/10" },
+    { id: "minimal", name: "Minimal Carbon", desc: "Pure slate grey", dot: "bg-slate-400", border: "border-slate-200 dark:border-slate-800", glow: "shadow-slate-100/10 dark:shadow-slate-950/10" },
+    { id: "forest", name: "Emerald Forest", desc: "Premium organic moss", dot: "bg-emerald-600", border: "border-emerald-200 dark:border-emerald-900/30", glow: "shadow-emerald-100/10 dark:shadow-emerald-950/10" },
 ]
 
 const LEVELS = [
@@ -202,31 +202,31 @@ export default function VideoGenerator() {
 
             {/* ── Form ── */}
             {uiState === "idle" && (
-                <Card className="bg-white border border-slate-150/80 rounded-2xl shadow-sm">
-                    <CardHeader className="border-b border-slate-100 bg-slate-50/50">
-                        <CardTitle className="text-slate-900 flex items-center gap-2">
+                <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                    <CardHeader className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                        <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
                             <Sparkles className="w-5 h-5 text-indigo-500" />
                             Generate a New Video
                         </CardTitle>
-                        <CardDescription className="text-slate-550 mt-1">
+                        <CardDescription className="text-slate-500 dark:text-slate-400 mt-1">
                             Enter a subject and the AI pipeline will build a full narrated lesson video.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="pt-6 space-y-5">
                         <div className="space-y-2">
-                            <Label htmlFor="subject" className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Subject / Topic</Label>
+                            <Label htmlFor="subject" className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Subject / Topic</Label>
                             <Input
                                 id="subject"
                                 placeholder="e.g. Python decorators for beginners"
                                 value={subject}
                                 onChange={e => setSubject(e.target.value)}
                                 onKeyDown={e => e.key === "Enter" && startGeneration()}
-                                className="bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 h-11 shadow-sm rounded-xl"
+                                className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 dark:focus:border-indigo-500 h-11 shadow-sm rounded-xl"
                             />
                         </div>
 
                         <div className="space-y-3">
-                            <Label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Visual Theme</Label>
+                            <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Visual Theme</Label>
                             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
                                 {THEMES.map(t => {
                                     const active = theme === t.id
@@ -235,10 +235,10 @@ export default function VideoGenerator() {
                                             key={t.id}
                                             type="button"
                                             onClick={() => setTheme(t.id)}
-                                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between min-h-[95px] shadow-sm ${
+                                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between min-h-[95px] shadow-sm cursor-pointer ${
                                                 active 
-                                                    ? `bg-white border-indigo-650 ring-4 ring-indigo-500/5 ${t.glow}` 
-                                                    : "bg-white border-slate-200 hover:border-slate-350 hover:bg-slate-50/30"
+                                                    ? `bg-indigo-50/20 dark:bg-indigo-950/20 border-indigo-500 dark:border-indigo-500 ring-4 ring-indigo-500/5 ${t.glow}` 
+                                                    : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-900"
                                             }`}
                                         >
                                             <div className="flex items-center justify-between w-full">
@@ -246,8 +246,8 @@ export default function VideoGenerator() {
                                                 {active && <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />}
                                             </div>
                                             <div>
-                                                <p className="text-xs font-bold text-slate-900 leading-tight mt-3">{t.name}</p>
-                                                <p className="text-[10px] text-slate-400 mt-0.5">{t.desc}</p>
+                                                <p className="text-xs font-bold text-slate-900 dark:text-slate-100 leading-tight mt-3">{t.name}</p>
+                                                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">{t.desc}</p>
                                             </div>
                                         </button>
                                     )
@@ -256,7 +256,7 @@ export default function VideoGenerator() {
                         </div>
 
                         <div className="space-y-3">
-                            <Label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Difficulty Level</Label>
+                            <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Difficulty Level</Label>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
                                 {LEVELS.map(l => {
                                     const active = level === l.id
@@ -265,14 +265,14 @@ export default function VideoGenerator() {
                                             key={l.id}
                                             type="button"
                                             onClick={() => setLevel(l.id)}
-                                            className={`p-3.5 rounded-xl border text-left transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between min-h-[80px] shadow-sm ${
+                                            className={`p-3.5 rounded-xl border text-left transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between min-h-[80px] shadow-sm cursor-pointer ${
                                                 active 
-                                                    ? "bg-white border-indigo-600 ring-4 ring-indigo-500/5" 
-                                                    : "bg-white border-slate-200 hover:border-slate-350 hover:bg-slate-50/30"
+                                                    ? "bg-indigo-50/20 dark:bg-indigo-950/20 border-indigo-500 dark:border-indigo-500 ring-4 ring-indigo-500/5" 
+                                                    : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-900"
                                             }`}
                                         >
-                                            <p className={`text-xs font-bold transition-colors ${active ? "text-indigo-600" : "text-slate-900"}`}>{l.name}</p>
-                                            <p className="text-[10px] text-slate-400 leading-tight mt-1">{l.desc}</p>
+                                            <p className={`text-xs font-bold transition-colors ${active ? "text-indigo-650 dark:text-indigo-400" : "text-slate-900 dark:text-slate-100"}`}>{l.name}</p>
+                                            <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-1">{l.desc}</p>
                                         </button>
                                     )
                                 })}
@@ -282,7 +282,7 @@ export default function VideoGenerator() {
                         <Button
                             onClick={startGeneration}
                             disabled={!subject.trim()}
-                            className="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-45 text-white h-11 text-base font-semibold rounded-xl shadow-md transition-all hover:scale-[1.002] active:scale-[0.998] mt-2 cursor-pointer"
+                            className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 text-white dark:text-slate-950 h-11 text-base font-semibold rounded-xl shadow-md transition-all hover:scale-[1.002] active:scale-[0.998] mt-2 cursor-pointer"
                         >
                             <Sparkles className="w-4 h-4 mr-2 text-indigo-300 animate-pulse" />
                             Generate Course Video
@@ -293,14 +293,14 @@ export default function VideoGenerator() {
 
             {/* ── Generating ── */}
             {uiState === "generating" && (
-                <Card className="bg-white border border-slate-150/80 rounded-2xl shadow-sm">
-                    <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+                <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                    <CardHeader className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-slate-900 flex items-center gap-2">
-                                <Loader2 className="w-5 h-5 text-indigo-550 animate-spin" />
+                            <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
+                                <Loader2 className="w-5 h-5 text-indigo-500 animate-spin" />
                                 Generating Video…
                             </CardTitle>
-                            <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                            <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30">
                                 RUNNING
                             </span>
                         </div>
@@ -308,17 +308,17 @@ export default function VideoGenerator() {
                     <CardContent className="pt-6 space-y-4">
                         <div className="space-y-2">
                             <div className="flex justify-between items-center text-sm">
-                                <span className="text-slate-500 font-medium">{step}</span>
-                                <span className="text-indigo-600 font-bold">{progress}%</span>
+                                <span className="text-slate-500 dark:text-slate-400 font-medium">{step}</span>
+                                <span className="text-indigo-650 dark:text-indigo-400 font-bold">{progress}%</span>
                             </div>
-                            <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50">
+                            <div className="h-2.5 bg-slate-100 dark:bg-slate-850 rounded-full overflow-hidden border border-slate-200/50 dark:border-slate-800">
                                 <div
-                                    className="h-full rounded-full bg-indigo-600 transition-all duration-700"
+                                    className="h-full rounded-full bg-indigo-600 dark:bg-indigo-550 transition-all duration-700"
                                     style={{ width: `${progress}%` }}
                                 />
                             </div>
                         </div>
-                        <p className="text-xs text-slate-400 text-center pt-2">
+                        <p className="text-xs text-slate-450 dark:text-slate-550 text-center pt-2 font-medium">
                             Generation takes 3–5 minutes. Do not close this page.
                         </p>
                     </CardContent>
@@ -329,38 +329,38 @@ export default function VideoGenerator() {
             {uiState === "done" && videoUrl && (
                 <>
                     {/* Video preview */}
-                    <Card className="bg-white border border-slate-150/80 rounded-2xl shadow-sm">
-                        <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+                    <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                        <CardHeader className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-slate-900 flex items-center gap-2">
-                                    <CheckCircle className="w-5 h-5 text-emerald-600" />
+                                <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
+                                    <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-450" />
                                     Video Ready
                                 </CardTitle>
-                                <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
                                     DONE
                                 </span>
                             </div>
                         </CardHeader>
                         <CardContent className="pt-6 space-y-5">
                             <div className="grid grid-cols-1 md:grid-cols-[1fr_160px] gap-5">
-                                <div className="rounded-xl overflow-hidden bg-black border border-slate-200">
+                                <div className="rounded-xl overflow-hidden bg-black border border-slate-200 dark:border-slate-800">
                                     <video src={videoUrl} controls className="w-full" />
                                 </div>
                                 {thumbUrl && (
                                     <div className="space-y-2">
-                                        <img src={thumbUrl} alt="Thumbnail" className="w-full rounded-xl border border-slate-200 object-cover aspect-video" />
-                                        <p className="text-xs text-slate-400 text-center font-medium">Thumbnail</p>
+                                        <img src={thumbUrl} alt="Thumbnail" className="w-full rounded-xl border border-slate-200 dark:border-slate-800 object-cover aspect-video" />
+                                        <p className="text-xs text-slate-400 dark:text-slate-550 text-center font-medium">Thumbnail</p>
                                     </div>
                                 )}
                             </div>
                             <div className="flex gap-3">
                                 <a href={videoUrl} download="lesson.mp4" className="flex-1">
-                                    <Button variant="outline" className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl h-10 font-semibold">
+                                    <Button variant="outline" className="w-full border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl h-10 font-semibold cursor-pointer">
                                         <Download className="w-4 h-4 mr-2" />
                                         Download MP4
                                     </Button>
                                 </a>
-                                <Button variant="outline" onClick={reset} className="border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl h-10 font-semibold">
+                                <Button variant="outline" onClick={reset} className="border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl h-10 font-semibold cursor-pointer">
                                     <RotateCcw className="w-4 h-4 mr-2" />
                                     New Video
                                 </Button>
@@ -369,13 +369,13 @@ export default function VideoGenerator() {
                     </Card>
 
                     {/* Publish as course */}
-                    <Card className="bg-white border border-slate-150/80 rounded-2xl shadow-sm">
-                        <CardHeader className="border-b border-slate-100 bg-slate-50/50">
-                            <CardTitle className="text-slate-900 flex items-center gap-2">
+                    <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                        <CardHeader className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                            <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
                                 <BookOpen className="w-5 h-5 text-indigo-500" />
                                 Publish as Course
                             </CardTitle>
-                            <CardDescription className="text-slate-500 font-medium mt-1">
+                            <CardDescription className="text-slate-500 dark:text-slate-400 font-medium mt-1">
                                 Turn this video into a course on the platform — the video and thumbnail are linked automatically.
                             </CardDescription>
                         </CardHeader>
@@ -384,21 +384,21 @@ export default function VideoGenerator() {
                             {/* Success state */}
                             {publishStatus === "success" && createdCourse && (
                                 <div className="space-y-4">
-                                    <div className="bg-emerald-50 border border-emerald-150 rounded-xl p-4 flex items-start gap-3 shadow-sm">
-                                        <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                                    <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/30 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+                                        <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                                         <div>
-                                            <p className="text-emerald-800 font-bold text-sm">Course published successfully!</p>
-                                            <p className="text-slate-550 text-xs mt-1">&quot;{createdCourse.title}&quot; is now live on the platform.</p>
+                                            <p className="text-emerald-800 dark:text-emerald-400 font-bold text-sm">Course published successfully!</p>
+                                            <p className="text-slate-500 dark:text-slate-450 text-xs mt-1">&quot;{createdCourse.title}&quot; is now live on the platform.</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-3">
                                         <a href={`/courses/${createdCourse.id}`} target="_blank" rel="noopener noreferrer" className="flex-1">
-                                            <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl">
+                                            <Button className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 text-white dark:text-slate-950 rounded-xl cursor-pointer">
                                                 <ExternalLink className="w-4 h-4 mr-2" />
                                                 View Course
                                             </Button>
                                         </a>
-                                        <Button variant="outline" onClick={reset} className="border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl">
+                                        <Button variant="outline" onClick={reset} className="border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl cursor-pointer">
                                             <RotateCcw className="w-4 h-4 mr-2" />
                                             Generate Another
                                         </Button>
@@ -410,35 +410,35 @@ export default function VideoGenerator() {
                             {publishStatus !== "success" && (
                                 <div className="space-y-4">
                                     {publishStatus === "error" && (
-                                        <div className="bg-red-50 border border-red-150 rounded-xl p-3.5 text-sm text-red-800 font-medium">
+                                        <div className="bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/30 rounded-xl p-3.5 text-sm text-red-800 dark:text-red-400 font-medium">
                                             {errorMsg}
                                         </div>
                                     )}
 
                                     {/* Pre-filled fields */}
                                     <div className="space-y-2">
-                                        <Label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Course Title</Label>
+                                        <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Course Title</Label>
                                         <Input
                                             value={courseTitle}
                                             onChange={e => setCourseTitle(e.target.value)}
                                             placeholder="Course title"
-                                            className="bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 h-11 shadow-sm rounded-xl"
+                                            className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 dark:focus:border-indigo-500 h-11 shadow-sm rounded-xl"
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Description</Label>
+                                        <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Description</Label>
                                         <textarea
                                             value={courseDescription}
                                             onChange={e => setCourseDescription(e.target.value)}
                                             rows={3}
                                             placeholder="Course description..."
-                                            className="w-full bg-white border border-slate-200 text-slate-900 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-500 placeholder:text-slate-400 resize-none shadow-sm"
+                                            className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 placeholder:text-slate-400 dark:placeholder:text-slate-600 resize-none shadow-sm"
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Price (USD)</Label>
+                                        <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Price (USD)</Label>
                                         <Input
                                             type="number"
                                             min="0"
@@ -446,21 +446,21 @@ export default function VideoGenerator() {
                                             value={coursePrice}
                                             onChange={e => setCoursePrice(e.target.value)}
                                             placeholder="e.g. 199"
-                                            className="bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 h-11 shadow-sm rounded-xl"
+                                            className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 dark:focus:border-indigo-500 h-11 shadow-sm rounded-xl"
                                         />
                                     </div>
 
                                     {/* Auto-linked info */}
-                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2 shadow-inner">
-                                        <p className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Auto-linked Content</p>
-                                        <div className="flex items-center gap-2 text-xs text-slate-505">
+                                    <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 space-y-2 shadow-inner">
+                                        <p className="text-[10px] font-bold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Auto-linked Content</p>
+                                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                             <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                                            Video: <span className="text-slate-600 truncate font-mono">{videoUrl}</span>
+                                            Video: <span className="text-slate-600 dark:text-slate-300 truncate font-mono">{videoUrl}</span>
                                         </div>
                                         {thumbUrl && (
-                                            <div className="flex items-center gap-2 text-xs text-slate-505">
+                                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                                 <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
-                                                Thumbnail: <span className="text-slate-600 truncate font-mono">{thumbUrl}</span>
+                                                Thumbnail: <span className="text-slate-600 dark:text-slate-300 truncate font-mono">{thumbUrl}</span>
                                             </div>
                                         )}
                                     </div>
@@ -468,7 +468,7 @@ export default function VideoGenerator() {
                                     <Button
                                         onClick={publishCourse}
                                         disabled={!courseTitle.trim() || !courseDescription.trim() || !coursePrice || publishStatus === "loading"}
-                                        className="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-45 text-white h-11 font-semibold rounded-xl"
+                                        className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 text-white dark:text-slate-950 h-11 font-semibold rounded-xl cursor-pointer"
                                     >
                                         {publishStatus === "loading" ? (
                                             <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Publishing…</>
@@ -485,23 +485,23 @@ export default function VideoGenerator() {
 
             {/* ── Error ── */}
             {uiState === "error" && (
-                <Card className="bg-white border border-red-200 rounded-2xl shadow-sm">
-                    <CardHeader className="border-b border-red-100 bg-red-50/30">
+                <Card className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/50 rounded-2xl shadow-sm overflow-hidden">
+                    <CardHeader className="border-b border-red-150 dark:border-red-900/45 bg-red-50/30 dark:bg-red-950/20">
                         <div className="flex items-center justify-between">
-                            <CardTitle className="text-red-800 flex items-center gap-2">
+                            <CardTitle className="text-red-850 dark:text-red-400 flex items-center gap-2">
                                 <XCircle className="w-5 h-5 text-red-500" />
                                 Generation Failed
                             </CardTitle>
-                            <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-200/50">
+                            <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-450 border border-red-200/50 dark:border-red-900/30">
                                 ERROR
                             </span>
                         </div>
                     </CardHeader>
                     <CardContent className="pt-5 space-y-4">
-                        <div className="bg-red-50 border border-red-150 rounded-xl p-4 text-sm text-red-800 break-words font-medium">
+                        <div className="bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/30 rounded-xl p-4 text-sm text-red-800 dark:text-red-400 break-words font-medium">
                             {errorMsg}
                         </div>
-                        <Button variant="outline" onClick={reset} className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl">
+                        <Button variant="outline" onClick={reset} className="w-full border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl cursor-pointer">
                             <RotateCcw className="w-4 h-4 mr-2" />
                             Try Again
                         </Button>
@@ -510,14 +510,14 @@ export default function VideoGenerator() {
             )}
 
             {/* ── History ── */}
-            <Card className="bg-white border border-slate-150/80 rounded-2xl shadow-sm">
-                <CardHeader className="border-b border-slate-100 bg-slate-50/50 flex flex-row items-center justify-between">
-                    <CardTitle className="text-slate-900 text-base font-bold">Recent Jobs</CardTitle>
+            <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                <CardHeader className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex flex-row items-center justify-between">
+                    <CardTitle className="text-slate-900 dark:text-slate-50 text-base font-bold">Recent Jobs</CardTitle>
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={loadHistory}
-                        className="border-slate-200 text-slate-655 hover:bg-slate-50 text-xs h-8 px-3 rounded-lg"
+                        className="border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs h-8 px-3 rounded-lg cursor-pointer bg-white dark:bg-slate-900 shadow-sm"
                     >
                         <RefreshCw className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
                         Refresh
@@ -525,18 +525,18 @@ export default function VideoGenerator() {
                 </CardHeader>
                 <CardContent className="pt-5">
                     {jobs.length === 0 ? (
-                        <p className="text-slate-400 text-sm text-center py-6 font-medium">No jobs generated yet.</p>
+                        <p className="text-slate-400 dark:text-slate-500 text-sm text-center py-6 font-medium">No jobs generated yet.</p>
                     ) : (
                         <div className="space-y-3.5">
                             {jobs.map(j => (
-                                <div key={j.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/30 transition-all duration-200 gap-4 shadow-sm">
+                                <div key={j.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50/30 dark:hover:bg-slate-900/60 transition-all duration-200 gap-4 shadow-sm">
                                     <div className="flex items-start gap-3.5">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-150 flex items-center justify-center shrink-0">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 flex items-center justify-center shrink-0">
                                             <BookOpen className="w-4.5 h-4.5 text-indigo-500" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-slate-900 leading-snug">{j.subject}</p>
-                                            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-1 text-[11px] text-slate-450 font-medium">
+                                            <p className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug">{j.subject}</p>
+                                            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-1 text-[11px] text-slate-450 dark:text-slate-500 font-medium">
                                                 <span className="capitalize">{j.theme.replace("-", " ")} theme</span>
                                                 <span>•</span>
                                                 <span className="capitalize">{j.level} level</span>
@@ -545,11 +545,11 @@ export default function VideoGenerator() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center justify-between sm:justify-end gap-3.5 border-t sm:border-t-0 border-slate-100 pt-3.5 sm:pt-0 shrink-0">
+                                    <div className="flex items-center justify-between sm:justify-end gap-3.5 border-t sm:border-t-0 border-slate-150 dark:border-slate-800 pt-3.5 sm:pt-0 shrink-0">
                                         <StatusBadge status={j.status} />
                                         {j.status === "done" && (
                                             <a href={`${API_URL}/files/${j.id}/lesson.mp4`} download>
-                                                <Button variant="outline" size="sm" className="border-slate-200 text-slate-655 hover:bg-slate-50 hover:border-slate-300 h-8 text-xs font-semibold px-3 rounded-lg bg-white shadow-sm">
+                                                <Button variant="outline" size="sm" className="border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-750 h-8 text-xs font-semibold px-3 rounded-lg bg-white dark:bg-slate-900 shadow-sm cursor-pointer">
                                                     <Download className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
                                                     Download MP4
                                                 </Button>
@@ -568,10 +568,10 @@ export default function VideoGenerator() {
 
 function StatusBadge({ status }: { status: string }) {
     const map: Record<string, string> = {
-        done:    "bg-emerald-50 text-emerald-700 border-emerald-150",
-        error:   "bg-red-50 text-red-700 border-red-150",
-        running: "bg-indigo-50 text-indigo-700 border-indigo-150",
-        pending: "bg-slate-50 text-slate-500 border-slate-200",
+        done:    "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/30",
+        error:   "bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border-red-100 dark:border-red-900/30",
+        running: "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400 border-indigo-100 dark:border-indigo-900/30",
+        pending: "bg-slate-50 dark:bg-slate-800/40 text-slate-500 dark:text-slate-450 border border-slate-200 dark:border-slate-700",
     }
     return (
         <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border tracking-wide ${map[status] ?? map.pending}`}>
