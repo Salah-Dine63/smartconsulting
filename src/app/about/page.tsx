@@ -36,7 +36,7 @@ export default function AboutPage() {
                             </p>
                         </div>
                         <div className="mt-10 flex items-center gap-4">
-                            <Link href="/courses/1">
+                            <Link href="/plans">
                                 <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-6 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-transform active:scale-95">
                                     Explore Our Flagship Program
                                 </Button>

@@ -8,27 +8,34 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  email         String?      @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          String       @default("USER")
-  accounts      Account[]
-  sessions      Session[]
-  enrollments   Enrollment[]
-  payments      Payment[]
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id              String              @id @default(cuid())
+  name            String?
+  email           String?             @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+  role            String              @default("USER")
+
+  accounts        Account[]
+  sessions        Session[]
+
+  enrollments     Enrollment[]
+  payments        Payment[]
+  subscriptions   Subscription[]
+  bankTransfers   BankTransfer[]
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
 }
 
 model Account {
-  id                 String  @id @default(cuid())
+  id                 String @id @default(cuid())
+
   userId             String
   type               String
   provider           String
   providerAccountId  String
+
   refresh_token      String?
   access_token       String?
   expires_at         Int?
@@ -43,11 +50,12 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  sessionToken  String   @unique
+  userId        String
+  expires       DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -59,38 +67,122 @@ model VerificationToken {
 }
 
 model Course {
-  id          String       @id @default(cuid())
-  title       String
-  description String
-  price       Float
-  imageUrl    String?
-  modules     String
-  enrollments Enrollment[]
-  payments    Payment[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id            String       @id @default(cuid())
+  title         String
+  description   String
+  price         Float
+  imageUrl      String?
+  modules       String
+
+  level         String?
+  duration      String?
+  skills        String?
+  features      String?
+  careerOutcome String?
+
+  enrollments   Enrollment[]
+  payments      Payment[]
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 model Enrollment {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  courseId  String
-  course    Course   @relation(fields: [courseId], references: [id])
-  status    String   @default("ACTIVE")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String          @id @default(cuid())
+
+  userId        String
+  user          User            @relation(fields: [userId], references: [id])
+
+  courseId      String
+  course        Course          @relation(fields: [courseId], references: [id])
+
+  status        String          @default("ACTIVE")
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([userId, courseId])
+}
+
+model Plan {
+  id            String          @id @default(cuid())
+
+  name          String          @unique
+
+  description   String
+
+  price         Float
+
+  type          String
+
+  subscriptions Subscription[]
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Subscription {
+  id                String      @id @default(cuid())
+
+  userId            String
+  user              User        @relation(fields: [userId], references: [id])
+
+  planId            String?
+  plan              Plan?       @relation(fields: [planId], references: [id])
+
+  planType          String
+
+  status            String      @default("ACTIVE")
+
+  stripeCustomerId  String?
+  stripeSessionId   String?
+
+  paypalOrderId     String?
+
+  startsAt          DateTime    @default(now())
+  endsAt            DateTime?
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
 
 model Payment {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  courseId        String
-  course          Course   @relation(fields: [courseId], references: [id])
-  stripeSessionId String   @unique
-  amount          Float
-  status          String   @default("PENDING")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                String      @id @default(cuid())
+
+  userId            String
+  user              User        @relation(fields: [userId], references: [id])
+
+  courseId          String?
+  course            Course?     @relation(fields: [courseId], references: [id])
+
+  amount            Float
+
+  paymentMethod     String
+
+  stripeSessionId   String?     @unique
+
+  paypalOrderId     String?
+
+  status            String      @default("PENDING")
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model BankTransfer {
+  id                String      @id @default(cuid())
+
+  userId            String
+  user              User        @relation(fields: [userId], references: [id])
+
+  courseId          String?
+
+  amount            Float
+
+  receiptUrl        String
+
+  status            String      @default("PENDING")
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
