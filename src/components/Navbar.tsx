@@ -19,7 +19,7 @@ export default function Navbar() {
                 </Link>
                 <nav className="hidden md:flex gap-8 items-center">
                     <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">About Us</Link>
-                    <Link href="/courses/1" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Courses</Link>
+                    <Link href="/plans" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Courses</Link>
                     <Link href="/#benefits" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">For Business</Link>
                 </nav>
                 <div className="flex items-center gap-4">
