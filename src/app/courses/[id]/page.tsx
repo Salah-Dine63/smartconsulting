@@ -4,6 +4,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, PlayCircle, BookOpen, Clock } from "lucide-react"
 
 import { prisma } from "@/lib/prisma"
+<<<<<<< Updated upstream
+=======
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+
+export default async function CoursePage({
+    params,
+    searchParams,
+}: {
+    params: Promise<{ id: string }>
+    searchParams: Promise<{ success?: string }>
+}) {
+    const { id } = await params
+    const query = await searchParams
+    const paymentSuccess = query.success === "true"
+
+    const session = await getServerSession(authOptions)
+
+    const userId =
+        (session?.user as { id?: string })?.id
+>>>>>>> Stashed changes
 
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;

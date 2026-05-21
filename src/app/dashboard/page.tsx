@@ -8,7 +8,24 @@ import Link from "next/link"
 import { PlayCircle } from "lucide-react"
 import { CourseCard } from "@/components/CourseCard"
 
+<<<<<<< Updated upstream
 export default async function DashboardPage() {
+=======
+export default async function DashboardPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ plan?: string }>
+}) {
+    const resolvedSearchParams = await searchParams
+
+    const selectedPlan =
+        resolvedSearchParams.plan === "PARTIAL"
+            ? "PARTIAL"
+            : resolvedSearchParams.plan === "FULL"
+            ? "FULL"
+            : "FREE"
+
+>>>>>>> Stashed changes
     const session = await getServerSession(authOptions)
     if (!session || !session.user) {
         redirect("/login")
