@@ -1,11 +1,11 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 const FROM = "ExecutiveEdu <onboarding@resend.dev>"
 
 export async function sendWelcomeEmail(to: string, name: string) {
     if (!process.env.RESEND_API_KEY) return
-    await resend.emails.send({
+    await getResend().emails.send({
         from: FROM,
         to,
         subject: "Welcome to ExecutiveEdu 🎓",
@@ -52,7 +52,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
 
 export async function sendEnrollmentEmail(to: string, name: string, courseTitle: string, courseId: string) {
     if (!process.env.RESEND_API_KEY) return
-    await resend.emails.send({
+    await getResend().emails.send({
         from: FROM,
         to,
         subject: `You're enrolled in ${courseTitle} ✅`,
@@ -98,7 +98,7 @@ export async function sendEnrollmentEmail(to: string, name: string, courseTitle:
 
 export async function sendCompletionEmail(to: string, name: string, courseTitle: string) {
     if (!process.env.RESEND_API_KEY) return
-    await resend.emails.send({
+    await getResend().emails.send({
         from: FROM,
         to,
         subject: `Congratulations! You completed ${courseTitle} 🏆`,
