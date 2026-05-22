@@ -2,14 +2,17 @@ import { NextResponse } from "next/server"
 import Stripe from "stripe"
 import { prisma } from "@/lib/prisma"
 import { sendEnrollmentEmail } from "@/lib/email"
+import { getStripe } from "@/lib/stripe"
 
 // IMPORTANT REMINDER: Add STRIPE_SECRET_KEY & STRIPE_WEBHOOK_SECRET to your .env file
-const stripeSecret = process.env.STRIPE_SECRET_KEY
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
-const stripe = stripeSecret ? new Stripe(stripeSecret, { apiVersion: "2024-06-20" as any }) : null
 
 export async function POST(req: Request) {
-    if (!stripe || !webhookSecret) {
+    if (!webhookSecret) {
+        return NextResponse.json({ error: "Stripe not configured" }, { status: 400 })
+    }
+    let stripe: Stripe
+    try { stripe = getStripe() } catch {
         return NextResponse.json({ error: "Stripe not configured" }, { status: 400 })
     }
 
@@ -47,6 +50,7 @@ export async function POST(req: Request) {
                     courseId,
                     stripeSessionId: session.id,
                     amount: (session.amount_total || 0) / 100,
+                    paymentMethod: "STRIPE",
                     status: "COMPLETED"
                 }
             })
