@@ -51,7 +51,13 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 console.log("[AUTH DEBUG] Authorization successful for user:", user.email)
-                return { id: user.id, email: user.email, name: user.name, role: user.role }
+                return { 
+                    id: user.id, 
+                    email: user.email, 
+                    name: user.name, 
+                    role: user.role, 
+                    image: user.image 
+                }
             }
         })
     ],
@@ -59,10 +65,16 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.id = user.id
                 token.role = (user as any).role || "USER"
+                token.image = (user as any).image || null
+            }
+            if (trigger === "update" && session) {
+                if (session.name !== undefined) token.name = session.name
+                if (session.email !== undefined) token.email = session.email
+                if (session.image !== undefined) token.image = session.image
             }
             return token
         },
@@ -70,6 +82,9 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 (session.user as any).id = token.id;
                 (session.user as any).role = token.role || "USER";
+                (session.user as any).image = token.image as string | null;
+                if (token.name) session.user.name = token.name as string;
+                if (token.email) session.user.email = token.email as string;
             }
             return session
         }

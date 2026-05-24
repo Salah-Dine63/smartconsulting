@@ -19,7 +19,7 @@ export async function POST() {
                             currency: "usd",
 
                             product_data: {
-                                name: "ExecutiveEdu Full Access",
+                                name: "Roobotix Full Access",
                             },
 
                             unit_amount: 199900,

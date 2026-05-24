@@ -113,8 +113,8 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
             <span className="text-xl font-bold text-slate-900 tracking-tight flex items-center">
-              <div className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded mr-2 text-[10px]">EE</div>
-              Executive<span className="text-blue-600">Edu</span>
+              <div className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded mr-2 text-[10px]">RX</div>
+              Roobo<span className="text-blue-600">tix</span>
             </span>
             <p className="mt-4 text-sm text-slate-500 leading-relaxed">Empowering the world's leading organizations with future-ready tech skills.</p>
           </div>
@@ -143,7 +143,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mx-auto max-w-6xl pt-8 border-t border-slate-200 text-sm text-slate-500 flex flex-col md:flex-row items-center justify-between">
-          <p>&copy; {new Date().getFullYear()} ExecutiveEdu Inc. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Roobotix Inc. All rights reserved.</p>
         </div>
       </footer>
     </div>

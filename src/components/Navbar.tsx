@@ -14,8 +14,8 @@ export default function Navbar() {
         <header className="border-b bg-white relative z-50">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/" className="text-2xl font-bold text-blue-950 tracking-tight flex items-center">
-                    <div className="w-8 h-8 bg-blue-600 font-extrabold text-white flex items-center justify-center rounded-lg mr-2 shadow-sm text-sm">EE</div>
-                    Executive<span className="text-blue-600">Edu</span>
+                    <div className="w-8 h-8 bg-blue-600 font-extrabold text-white flex items-center justify-center rounded-lg mr-2 shadow-sm text-sm">RX</div>
+                    Roobo<span className="text-blue-600">tix</span>
                 </Link>
                 <nav className="hidden md:flex gap-8 items-center">
                     <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">About Us</Link>
@@ -43,9 +43,13 @@ export default function Navbar() {
                                 </Link>
                             )}
                             <Link href="/profile">
-                                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-extrabold shadow-sm hover:bg-blue-700 transition-colors cursor-pointer">
-                                    {(session.user?.name ?? session.user?.email ?? "?")
-                                        .split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)}
+                                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-extrabold shadow-sm hover:bg-blue-700 transition-colors cursor-pointer overflow-hidden">
+                                    {(session.user as any)?.image ? (
+                                        <img src={(session.user as any).image} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                        (session.user?.name ?? session.user?.email ?? "?")
+                                            .split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)
+                                    )}
                                 </div>
                             </Link>
                             <Button onClick={() => signOut()} variant="outline" className="text-sm font-medium border-slate-200">Log out</Button>

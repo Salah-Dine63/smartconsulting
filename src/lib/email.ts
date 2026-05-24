@@ -1,14 +1,14 @@
 import { Resend } from "resend"
 
 const getResend = () => new Resend(process.env.RESEND_API_KEY)
-const FROM = "ExecutiveEdu <onboarding@resend.dev>"
+const FROM = "Roobotix <onboarding@resend.dev>"
 
 export async function sendWelcomeEmail(to: string, name: string) {
     if (!process.env.RESEND_API_KEY) return
     await getResend().emails.send({
         from: FROM,
         to,
-        subject: "Welcome to ExecutiveEdu 🎓",
+        subject: "Welcome to Roobotix 🎓",
         html: `
 <!DOCTYPE html>
 <html>
@@ -17,7 +17,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;">
         <tr><td style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);padding:40px;text-align:center;">
-          <h1 style="color:#fff;margin:0;font-size:28px;font-weight:800;">ExecutiveEdu</h1>
+          <h1 style="color:#fff;margin:0;font-size:28px;font-weight:800;">Roobotix</h1>
           <p style="color:#bfdbfe;margin:8px 0 0;font-size:14px;">AI & Business Automation Training</p>
         </td></tr>
         <tr><td style="padding:40px;">
@@ -40,7 +40,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
           </a>
         </td></tr>
         <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="color:#475569;font-size:12px;margin:0;">© 2025 ExecutiveEdu. All rights reserved.</p>
+          <p style="color:#475569;font-size:12px;margin:0;">© 2025 Roobotix. All rights reserved.</p>
         </td></tr>
       </table>
     </td></tr>
@@ -64,7 +64,7 @@ export async function sendEnrollmentEmail(to: string, name: string, courseTitle:
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;">
         <tr><td style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);padding:40px;text-align:center;">
-          <h1 style="color:#fff;margin:0;font-size:28px;font-weight:800;">ExecutiveEdu</h1>
+          <h1 style="color:#fff;margin:0;font-size:28px;font-weight:800;">Roobotix</h1>
         </td></tr>
         <tr><td style="padding:40px;">
           <div style="text-align:center;margin-bottom:32px;">
@@ -86,7 +86,7 @@ export async function sendEnrollmentEmail(to: string, name: string, courseTitle:
           </a>
         </td></tr>
         <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="color:#475569;font-size:12px;margin:0;">© 2025 ExecutiveEdu. All rights reserved.</p>
+          <p style="color:#475569;font-size:12px;margin:0;">© 2025 Roobotix. All rights reserved.</p>
         </td></tr>
       </table>
     </td></tr>
@@ -129,7 +129,7 @@ export async function sendCompletionEmail(to: string, name: string, courseTitle:
           </a>
         </td></tr>
         <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="color:#475569;font-size:12px;margin:0;">© 2025 ExecutiveEdu. All rights reserved.</p>
+          <p style="color:#475569;font-size:12px;margin:0;">© 2025 Roobotix. All rights reserved.</p>
         </td></tr>
       </table>
     </td></tr>

@@ -5,7 +5,7 @@ import { sendWelcomeEmail } from "@/lib/email"
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password } = await req.json()
+        const { name, email, password, image } = await req.json()
 
         if (!email || !password) {
             return NextResponse.json({ message: "Email and password required" }, { status: 400 })
@@ -25,6 +25,7 @@ export async function POST(req: Request) {
                 name,
                 email: normalizedEmail,
                 password: hashedPassword,
+                image,
             }
         })
 

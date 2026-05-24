@@ -7,7 +7,7 @@ import AuthProvider from "@/components/AuthProvider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Executive Edu - Professional Courses",
+  title: "Roobotix - Professional Courses",
   description: "Advanced courses in AI and Digital Transformation for companies.",
 }
 

@@ -61,7 +61,7 @@ export default function PlansPage() {
 
                 <div className="text-center mb-20">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-8">
-                        ExecutiveEdu Pricing
+                        Roobotix Pricing
                     </div>
 
                     <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-6">

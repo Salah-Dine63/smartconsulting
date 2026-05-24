@@ -107,7 +107,7 @@ export default async function CheckoutPage({
                                 <div className="absolute bottom-8 left-8 right-8">
 
                                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-400/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">
-                                        Premium Executive Program
+                                        Premium Roobotix Program
                                     </div>
 
                                     <h2 className="text-4xl font-black text-white mb-4 leading-tight">

@@ -134,7 +134,7 @@ export default function EnrollModal({
                         </h3>
 
                         <p className="text-slate-500 mt-1">
-                            Premium Executive Program
+                            Premium Roobotix Program
                         </p>
 
                         <div className="mt-4 text-4xl font-black text-blue-600">
@@ -172,9 +172,9 @@ export default function EnrollModal({
                             </div>
 
                             <div className="text-sm text-slate-600 space-y-1">
-                                <p>Bank: SmartConsulting Bank</p>
+                                <p>Bank: Roobotix Bank</p>
                                 <p>IBAN: MA12 0000 0000 0000 0000</p>
-                                <p>SWIFT: SMARTMA</p>
+                                <p>SWIFT: ROOBOTIXMA</p>
                             </div>
 
                             <input

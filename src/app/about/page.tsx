@@ -12,7 +12,7 @@ export default function AboutPage() {
                         Our Mission
                     </div>
                     <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">
-                        Pioneering the Future of <br className="hidden md:block" />Executive <span className="text-blue-500">Education</span>
+                        Pioneering the Future of <br className="hidden md:block" />Robotics & AI <span className="text-blue-500">Education</span>
                     </h1>
                     <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
                         We exist to seamlessly bridge the gap between theoretical technology and practical enterprise execution. We empower global organizations through elite digital transformation training.
@@ -29,7 +29,7 @@ export default function AboutPage() {
                                 In a world where artificial intelligence and automation are rapidly displacing legacy workflows, technical intuition has become the single most valuable currency for modern business leadership.
                             </p>
                             <p>
-                                ExecutiveEdu was founded by industry veterans to cut through the jargon. We don't teach you how to write code for the sake of coding. We teach you how to systematically deploy technology to reduce overhead, eliminate human error, and accelerate your company's digital outcomes.
+                                Roobotix was founded by industry veterans to cut through the jargon. We don't teach you how to write code for the sake of coding. We teach you how to systematically deploy technology to reduce overhead, eliminate human error, and accelerate your company's digital outcomes.
                             </p>
                             <p>
                                 Our flagship 6-week curriculum strips away theoretical noise to focus entirely on pragmatic, scalable business automation that generates immediate ROI.

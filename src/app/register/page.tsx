@@ -7,14 +7,28 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
+import { Eye, EyeOff, User } from "lucide-react"
 
 export default function RegisterPage() {
     const router = useRouter()
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [image, setImage] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setImage(reader.result as string)
+            }
+            reader.readAsDataURL(file)
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -25,7 +39,7 @@ export default function RegisterPage() {
             const res = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ name, email, password, image }),
             })
 
             if (res.ok) {
@@ -61,6 +75,30 @@ export default function RegisterPage() {
                                     {error}
                                 </div>
                             )}
+                            
+                            {/* Profile Picture Upload */}
+                            <div className="flex flex-col items-center gap-3 pb-2">
+                                <div className="w-20 h-20 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden relative shadow-inner">
+                                    {image ? (
+                                        <img src={image} alt="Preview" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <User className="w-8 h-8 text-slate-400" />
+                                    )}
+                                </div>
+                                <div className="text-center">
+                                    <Label htmlFor="image-upload" className="cursor-pointer text-xs font-semibold text-blue-900 hover:text-blue-800 bg-blue-50 hover:bg-blue-100/80 py-2 px-3 rounded-lg border border-blue-200 inline-block transition-colors select-none">
+                                        Upload Profile Picture
+                                    </Label>
+                                    <input
+                                        id="image-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="hidden"
+                                    />
+                                </div>
+                            </div>
+
                             <div className="space-y-2">
                                 <Label htmlFor="name">Full Name</Label>
                                 <Input
@@ -84,13 +122,27 @@ export default function RegisterPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="password">Password</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
+                                <div className="relative">
+                                    <Input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        className="pr-10"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {showPassword ? (
+                                            <EyeOff className="w-4 h-4" />
+                                        ) : (
+                                            <Eye className="w-4 h-4" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </CardContent>
                         <CardFooter className="flex flex-col space-y-4 pb-2">

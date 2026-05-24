@@ -45,7 +45,7 @@ export default function FullAccessPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        ✅ Executive certifications
+                        ✅ Roobotix certifications
                     </div>
 
                 </div>

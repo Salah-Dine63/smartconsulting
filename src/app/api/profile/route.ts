@@ -11,7 +11,7 @@ export async function PATCH(req: Request) {
     }
 
     const userId = (session.user as any).id
-    const { name, email, currentPassword, newPassword } = await req.json()
+    const { name, email, image, currentPassword, newPassword } = await req.json()
 
     const user = await prisma.user.findUnique({ where: { id: userId } })
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 })
@@ -32,6 +32,7 @@ export async function PATCH(req: Request) {
 
     const updateData: any = {}
     if (name) updateData.name = name
+    if (image !== undefined) updateData.image = image
     if (email && email !== user.email) {
         const exists = await prisma.user.findUnique({ where: { email } })
         if (exists) return NextResponse.json({ error: "Email already in use" }, { status: 400 })
