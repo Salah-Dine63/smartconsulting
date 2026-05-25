@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Download, RotateCcw, Sparkles, CheckCircle, XCircle, Loader2, BookOpen, ExternalLink, RefreshCw } from "lucide-react"
 
-const API_URL = process.env.NEXT_PUBLIC_VIDEO_API_URL || "http://localhost:8000"
+const API_URL = process.env.NEXT_PUBLIC_VIDEO_API_URL || "/api/video"
 
 type Status = "idle" | "generating" | "done" | "error"
 type PublishStatus = "idle" | "loading" | "success" | "error"
@@ -137,12 +137,12 @@ export default function VideoGenerator() {
         if (!courseTitle.trim() || !courseDescription.trim() || !coursePrice) return
         setPublishStatus("loading")
 
-        const videoUrl = jobStatus?.video_url ? `${API_URL}${jobStatus.video_url}` : ""
-        const thumbUrl = jobStatus?.thumbnail_url ? `${API_URL}${jobStatus.thumbnail_url}` : null
+        const videoUrl = jobStatus?.video_url ? (jobStatus.video_url.startsWith('http') ? jobStatus.video_url : `${API_URL}${jobStatus.video_url}`) : ""
+        const thumbUrl = jobStatus?.thumbnail_url ? (jobStatus.thumbnail_url.startsWith('http') ? jobStatus.thumbnail_url : `${API_URL}${jobStatus.thumbnail_url}`) : null
 
         const modules = jobStatus?.modules?.length ? jobStatus.modules.map(mod => ({
             title: mod.title,
-            videoUrl: mod.videoUrl ? `${API_URL}${mod.videoUrl}` : "",
+            videoUrl: mod.videoUrl ? (mod.videoUrl.startsWith('http') ? mod.videoUrl : `${API_URL}${mod.videoUrl}`) : "",
             description: mod.description,
             quiz: mod.quiz
         })) : [
@@ -194,8 +194,8 @@ export default function VideoGenerator() {
 
     const progress = jobStatus?.progress ?? 0
     const step = jobStatus?.step ?? "…"
-    const videoUrl = jobStatus?.video_url ? `${API_URL}${jobStatus.video_url}` : null
-    const thumbUrl = jobStatus?.thumbnail_url ? `${API_URL}${jobStatus.thumbnail_url}` : null
+    const videoUrl = jobStatus?.video_url ? (jobStatus.video_url.startsWith('http') ? jobStatus.video_url : `${API_URL}${jobStatus.video_url}`) : null
+    const thumbUrl = jobStatus?.thumbnail_url ? (jobStatus.thumbnail_url.startsWith('http') ? jobStatus.thumbnail_url : `${API_URL}${jobStatus.thumbnail_url}`) : null
 
     return (
         <div className="space-y-6">
