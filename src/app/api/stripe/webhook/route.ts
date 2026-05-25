@@ -32,36 +32,66 @@ export async function POST(req: Request) {
         const session = event.data.object as Stripe.Checkout.Session
         const userId = session.client_reference_id
         const courseId = session.metadata?.courseId
+        const planType = session.metadata?.planType
 
-        if (userId && courseId) {
-            // Create Enrollment
-            await prisma.enrollment.create({
-                data: {
-                    userId,
-                    courseId,
-                    status: "ACTIVE"
+        if (userId) {
+            if (courseId) {
+                // Create Enrollment
+                await prisma.enrollment.create({
+                    data: {
+                        userId,
+                        courseId,
+                        status: "ACTIVE"
+                    }
+                })
+
+                // Record Payment
+                await prisma.payment.create({
+                    data: {
+                        userId,
+                        courseId,
+                        stripeSessionId: session.id,
+                        amount: (session.amount_total || 0) / 100,
+                        paymentMethod: "STRIPE",
+                        status: "COMPLETED"
+                    }
+                })
+
+                // Send enrollment confirmation email
+                const [user, course] = await Promise.all([
+                    prisma.user.findUnique({ where: { id: userId } }),
+                    prisma.course.findUnique({ where: { id: courseId } }),
+                ])
+                if (user?.email && course) {
+                    sendEnrollmentEmail(user.email, user.name ?? "there", course.title, course.id).catch(console.error)
                 }
-            })
+            } else if (planType === "FULL") {
+                // Create Subscription in database
+                await prisma.subscription.create({
+                    data: {
+                        userId,
+                        planType: "FULL",
+                        status: "ACTIVE",
+                        stripeSessionId: session.id,
+                    }
+                })
 
-            // Record Payment
-            await prisma.payment.create({
-                data: {
-                    userId,
-                    courseId,
-                    stripeSessionId: session.id,
-                    amount: (session.amount_total || 0) / 100,
-                    paymentMethod: "STRIPE",
-                    status: "COMPLETED"
+                // Record Payment
+                await prisma.payment.create({
+                    data: {
+                        userId,
+                        stripeSessionId: session.id,
+                        amount: (session.amount_total || 0) / 100,
+                        paymentMethod: "STRIPE",
+                        status: "COMPLETED"
+                    }
+                })
+
+                // Send Welcome/Confirmation Email
+                const user = await prisma.user.findUnique({ where: { id: userId } })
+                if (user?.email) {
+                    sendWelcomeEmail(user.email, user.name ?? "there").catch(console.error)
                 }
-            })
-
-            // Send enrollment confirmation email
-            const [user, course] = await Promise.all([
-                prisma.user.findUnique({ where: { id: userId } }),
-                prisma.course.findUnique({ where: { id: courseId } }),
-            ])
-            if (user?.email && course) {
-                sendEnrollmentEmail(user.email, user.name ?? "there", course.title, course.id).catch(console.error)
             }
         }
     }

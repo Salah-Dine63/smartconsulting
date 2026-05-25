@@ -6,6 +6,7 @@ import { Users, BookOpen, DollarSign, TrendingUp, Sparkles } from "lucide-react"
 import AdminCourseForm from "@/components/AdminCourseForm"
 import DeleteCourseButton from "@/components/DeleteCourseButton"
 import Link from "next/link"
+import AdminVirementManager from "@/components/AdminVirementManager"
 
 export default async function AdminPage() {
     const session = await getServerSession(authOptions)
@@ -14,12 +15,29 @@ export default async function AdminPage() {
         redirect("/dashboard")
     }
 
-    const [users, courses, enrollments, payments] = await Promise.all([
+    const [users, courses, enrollments, payments, pendingTransfers] = await Promise.all([
         prisma.user.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
         prisma.course.findMany({ include: { _count: { select: { enrollments: true } } } }),
         prisma.enrollment.findMany({ include: { user: true, course: true }, orderBy: { createdAt: "desc" }, take: 10 }),
         prisma.payment.findMany({ where: { status: "COMPLETED" } }),
+        prisma.bankTransfer.findMany({
+            where: { status: "PENDING" },
+            include: { user: { select: { name: true, email: true } } },
+            orderBy: { createdAt: "desc" }
+        })
     ])
+
+    const pendingTransfersWithCourse = pendingTransfers.map(bt => {
+        const course = courses.find(c => c.id === bt.courseId)
+        return {
+            ...bt,
+            courseTitle: course ? course.title : "Unknown Course",
+            user: {
+                name: bt.user.name,
+                email: bt.user.email
+            }
+        }
+    })
 
     const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0)
     const totalUsers = await prisma.user.count()
@@ -33,7 +51,7 @@ export default async function AdminPage() {
     ]
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 p-6 md:p-10 font-sans transition-colors duration-200">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 p-6 md:p-10 font-sans transition-colors duration-200 font-medium">
             <div className="max-w-7xl mx-auto">
                 
                 {/* Header */}
@@ -77,7 +95,7 @@ export default async function AdminPage() {
                                 <div key={course.id} className="p-4 flex items-center justify-between hover:bg-slate-50/40 dark:hover:bg-slate-850/20 transition-colors">
                                     <div className="flex-1 min-w-0 pr-4">
                                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{course.title}</p>
-                                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{course._count.enrollments} enrolled</p>
+                                        <p className="text-xs text-slate-400 dark:text-slate-550 mt-0.5">{course._count.enrollments} enrolled</p>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <span className="text-sm font-bold text-slate-900 dark:text-slate-100">${course.price.toLocaleString()}</span>
@@ -101,7 +119,7 @@ export default async function AdminPage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{e.user.name ?? e.user.email}</p>
-                                        <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{e.course.title}</p>
+                                        <p className="text-xs text-slate-400 dark:text-slate-550 truncate">{e.course.title}</p>
                                     </div>
                                     <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold tracking-wide ${e.status === "ACTIVE" ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-450 border border-slate-200 dark:border-slate-700"}`}>
                                         {e.status}
@@ -113,6 +131,11 @@ export default async function AdminPage() {
                             )}
                         </div>
                     </div>
+                </div>
+
+                {/* Pending Bank Transfers Section */}
+                <div className="mb-10">
+                    <AdminVirementManager transfers={pendingTransfersWithCourse} />
                 </div>
 
                 {/* Recent Users */}
