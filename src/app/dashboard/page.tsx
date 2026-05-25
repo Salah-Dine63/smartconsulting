@@ -14,12 +14,15 @@ export default async function DashboardPage({
 }) {
     const resolvedSearchParams = await searchParams
 
+    const planParam = resolvedSearchParams.plan
     const selectedPlan =
-        resolvedSearchParams.plan === "PARTIAL"
+        planParam === "PARTIAL"
             ? "PARTIAL"
-            : resolvedSearchParams.plan === "FULL"
+            : planParam === "FULL"
             ? "FULL"
-            : "FREE"
+            : planParam === "FREE"
+            ? "FREE"
+            : undefined
     const session = await getServerSession(authOptions)
 
     if (!session || !session.user) {
