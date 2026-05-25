@@ -32,8 +32,9 @@ export default async function CoursePage({
 
     const session = await getServerSession(authOptions)
 
-    const userId =
-        (session?.user as { id?: string })?.id
+    const userId = (session?.user as { id?: string })?.id
+    const userRole = (session?.user as { role?: string })?.role
+    const isAdmin = userRole === "ADMIN"
 
     const course = await prisma.course.findUnique({
         where: {
@@ -99,8 +100,7 @@ export default async function CoursePage({
 
     const isFull = userPlan === "FULL"
 
-    const hasCourseAccess =
-        isFull || !!enrollment
+    const hasCourseAccess = isFull || !!enrollment || isAdmin
 
     return (
 

@@ -99,6 +99,11 @@ export default async function AdminPage() {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <span className="text-sm font-bold text-slate-900 dark:text-slate-100">${course.price.toLocaleString()}</span>
+                                        <Link href={`/courses/${course.id}/video`} title="Spectate Course">
+                                            <button className="p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-xl transition-colors cursor-pointer">
+                                                <BookOpen className="w-4 h-4" />
+                                            </button>
+                                        </Link>
                                         <DeleteCourseButton courseId={course.id} />
                                     </div>
                                 </div>
