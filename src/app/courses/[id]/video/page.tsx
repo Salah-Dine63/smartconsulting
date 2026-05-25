@@ -13,6 +13,7 @@ export default async function CourseVideoPage({ params }: { params: Promise<{ id
     }
 
     const userId = (session.user as any).id
+    const isAdmin = (session.user as any).role === "ADMIN"
 
     const course = await prisma.course.findUnique({
         where: { id }
@@ -26,7 +27,7 @@ export default async function CourseVideoPage({ params }: { params: Promise<{ id
         where: { courseId: course.id, userId }
     })
 
-    if (!enrollment) {
+    if (!enrollment && !isAdmin) {
         redirect(`/courses/${course.id}`)
     }
 
