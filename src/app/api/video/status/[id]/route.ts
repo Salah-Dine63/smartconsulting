@@ -40,14 +40,14 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
         progress,
         step,
         // We use a sample video URL when it finishes
-        video_url: status === "done" ? "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" : null,
-        thumbnail_url: status === "done" ? "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg" : null,
+        video_url: status === "done" ? "https://www.w3schools.com/html/mov_bbb.mp4" : null,
+        thumbnail_url: status === "done" ? "https://picsum.photos/seed/video/800/450" : null,
         error: null,
         modules: status === "done" ? [
             {
                 title: "Part 1: Introduction",
                 description: "Basic overview of the generated concepts.",
-                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
             }
         ] : null
     })
