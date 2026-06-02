@@ -8,6 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Download, RotateCcw, Sparkles, CheckCircle, XCircle, Loader2, BookOpen, ExternalLink, RefreshCw } from "lucide-react"
 
 const API_URL = "/api/video"
+// The Python video service's public base URL (e.g. https://video-api.railway.app).
+// Falls back to the Next.js proxy route for local development.
+const PYTHON_API_BASE = (typeof process !== "undefined" && process.env.NEXT_PUBLIC_VIDEO_API_URL)
+    ? process.env.NEXT_PUBLIC_VIDEO_API_URL.replace(/\/$/, "")
+    : null
+
+// Build a publicly-accessible URL for a path like "/files/{id}/lesson.mp4"
+function toPublicVideoUrl(apiRelativePath: string): string {
+    if (!apiRelativePath) return ""
+    // If we have a direct Python API URL, use it (avoids cross-container filesystem issue)
+    if (PYTHON_API_BASE) return `${PYTHON_API_BASE}${apiRelativePath}`
+    // Otherwise fall back to the Next.js proxy (works in local dev)
+    return `${API_URL}${apiRelativePath}`
+}
 
 type Status = "idle" | "generating" | "done" | "error"
 type PublishStatus = "idle" | "loading" | "success" | "error"
@@ -137,12 +151,12 @@ export default function VideoGenerator() {
         if (!courseTitle.trim() || !courseDescription.trim() || !coursePrice) return
         setPublishStatus("loading")
 
-        const videoUrl = jobStatus?.video_url ? `${API_URL}${jobStatus.video_url}` : ""
-        const thumbUrl = jobStatus?.thumbnail_url ? `${API_URL}${jobStatus.thumbnail_url}` : null
+        const videoUrl = jobStatus?.video_url ? toPublicVideoUrl(jobStatus.video_url) : ""
+        const thumbUrl = jobStatus?.thumbnail_url ? toPublicVideoUrl(jobStatus.thumbnail_url) : null
 
         const modules = jobStatus?.modules?.length ? jobStatus.modules.map(mod => ({
             title: mod.title,
-            videoUrl: mod.videoUrl ? `${API_URL}${mod.videoUrl}` : "",
+            videoUrl: mod.videoUrl ? toPublicVideoUrl(mod.videoUrl) : "",
             description: mod.description,
             quiz: mod.quiz
         })) : [
@@ -194,8 +208,8 @@ export default function VideoGenerator() {
 
     const progress = jobStatus?.progress ?? 0
     const step = jobStatus?.step ?? "…"
-    const videoUrl = jobStatus?.video_url ? `${API_URL}${jobStatus.video_url}` : null
-    const thumbUrl = jobStatus?.thumbnail_url ? `${API_URL}${jobStatus.thumbnail_url}` : null
+    const videoUrl = jobStatus?.video_url ? toPublicVideoUrl(jobStatus.video_url) : null
+    const thumbUrl = jobStatus?.thumbnail_url ? toPublicVideoUrl(jobStatus.thumbnail_url) : null
 
     return (
         <div className="space-y-6">

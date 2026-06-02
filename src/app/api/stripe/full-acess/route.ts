@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server"
 import { getStripe } from "@/lib/stripe"
 
-export async function POST() {
+export async function POST(req: Request) {
 
     try {
+
+        const appUrl = process.env.NEXTAUTH_URL || new URL(req.url).origin
 
         const session =
             await getStripe().checkout.sessions.create({
@@ -30,10 +32,10 @@ export async function POST() {
                 ],
 
                 success_url:
-                    `${process.env.NEXTAUTH_URL}/dashboard?plan=FULL`,
+                    `${appUrl}/dashboard?plan=FULL`,
 
                 cancel_url:
-                    `${process.env.NEXTAUTH_URL}/plans`,
+                    `${appUrl}/plans`,
             } as any)
 
         return NextResponse.json({

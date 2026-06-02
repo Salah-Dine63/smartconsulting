@@ -121,7 +121,13 @@ export default function CourseVideoPlayer({ courseTitle, modules }: Props) {
             <main className="flex-1 flex flex-col h-full overflow-hidden">
                 <div className="flex-1 bg-black p-4 md:p-8 flex flex-col">
                     <div className="aspect-video w-full max-w-5xl mx-auto bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl flex-shrink-0">
-                        {isLocalVideo(active.videoUrl) ? (
+                        {isMock ? (
+                            <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 text-sm p-4 text-center">
+                                <span className="text-red-400 mb-2 text-lg font-bold">This is an old test course!</span>
+                                <span>The cartoon video was permanently saved to this specific course while the mock was active.</span>
+                                <span>Please go to your Admin Dashboard and click "New Video" to generate a real course video!</span>
+                            </div>
+                        ) : isLocalVideo(active.videoUrl) ? (
                             <video
                                 key={active.videoUrl}
                                 src={active.videoUrl}
@@ -138,12 +144,6 @@ export default function CourseVideoPlayer({ courseTitle, modules }: Props) {
                                 allow="autoplay"
                                 allowFullScreen
                             />
-                        ) : isMock ? (
-                            <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 text-sm p-4 text-center">
-                                <span className="text-red-400 mb-2 text-lg font-bold">This is an old test course!</span>
-                                <span>The cartoon video was permanently saved to this specific course while the mock was active.</span>
-                                <span>Please go to your Admin Dashboard and click "New Video" to generate a real course video!</span>
-                            </div>
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-500 text-sm">
                                 Video coming soon

@@ -25,6 +25,8 @@ export async function POST(req: Request) {
         // FULL ACCESS
         // =========================
 
+        const appUrl = process.env.NEXTAUTH_URL || new URL(req.url).origin
+
         if (body.fullAccess) {
 
             const session = await getStripe().checkout.sessions.create({
@@ -57,10 +59,10 @@ export async function POST(req: Request) {
                 mode: "payment",
 
                 success_url:
-                    `${process.env.NEXTAUTH_URL}/dashboard?plan=FULL`,
+                    `${appUrl}/dashboard?plan=FULL`,
 
                 cancel_url:
-                    `${process.env.NEXTAUTH_URL}/plans`,
+                    `${appUrl}/plans`,
             })
 
             return NextResponse.json({
@@ -133,8 +135,8 @@ export async function POST(req: Request) {
 
             mode: "payment",
 
-            success_url: `${process.env.NEXTAUTH_URL}/courses/${course.id}?success=true`,
-           cancel_url: `${process.env.NEXTAUTH_URL}/checkout/${course.id}`,
+            success_url: `${appUrl}/courses/${course.id}?success=true`,
+            cancel_url: `${appUrl}/checkout/${course.id}`,
         })
 
         return NextResponse.json({

@@ -9,7 +9,8 @@
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "video-api": "python3 video_api/api.py"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.94.0",
