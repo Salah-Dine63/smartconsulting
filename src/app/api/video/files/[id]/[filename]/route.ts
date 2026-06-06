@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server"
-import { createReadStream, existsSync, statSync } from "fs"
-import { join } from "path"
-import { Readable } from "stream"
 
 export const dynamic = "force-dynamic"
 
@@ -16,61 +13,44 @@ export async function GET(
         return NextResponse.json({ error: "Invalid filename" }, { status: 400 })
     }
 
-    // Check video_api/output first, then root output/
-    const possiblePaths = [
-        join(process.cwd(), "video_api", "output", id, filename),
-        join(process.cwd(), "video_api", "output", id, "slides", filename),
-        join(process.cwd(), "output", id, filename),
-        join(process.cwd(), "output", id, "slides", filename),
-    ]
+    // Proxy the request to the Python video API (HF Spaces or local)
+    const PYTHON_API = (process.env.VIDEO_API_URL || "http://localhost:8000").replace(/\/$/, "")
+    const pythonUrl = `${PYTHON_API}/files/${id}/${filename}`
 
-    let filePath: string | null = null
-    for (const p of possiblePaths) {
-        if (existsSync(p)) { filePath = p; break }
-    }
-
-    if (!filePath) {
-        return NextResponse.json({ error: "File not found" }, { status: 404 })
-    }
-
-    const stat = statSync(filePath)
-    const contentType = filename.endsWith(".mp4") ? "video/mp4"
-        : filename.endsWith(".png") ? "image/png"
-        : "application/octet-stream"
-
-    // Support range requests for video seeking
-    const rangeHeader = req.headers.get("range")
-    if (rangeHeader && contentType === "video/mp4") {
-        const [startStr, endStr] = rangeHeader.replace("bytes=", "").split("-")
-        const start = parseInt(startStr, 10)
-        const end = endStr ? parseInt(endStr, 10) : stat.size - 1
-        const chunkSize = end - start + 1
-
-        const stream = createReadStream(filePath, { start, end })
-        const readable = Readable.toWeb(stream) as ReadableStream
-
-        return new Response(readable, {
-            status: 206,
+    try {
+        const upstream = await fetch(pythonUrl, {
             headers: {
-                "Content-Range": `bytes ${start}-${end}/${stat.size}`,
-                "Accept-Ranges": "bytes",
-                "Content-Length": String(chunkSize),
-                "Content-Type": contentType,
-                "Cache-Control": "public, max-age=3600",
+                // Forward range requests for video seeking
+                ...(req.headers.get("range") ? { range: req.headers.get("range")! } : {}),
             },
         })
-    }
 
-    const stream = createReadStream(filePath)
-    const readable = Readable.toWeb(stream) as ReadableStream
+        if (!upstream.ok) {
+            return NextResponse.json({ error: "File not found" }, { status: upstream.status })
+        }
 
-    return new Response(readable, {
-        status: 200,
-        headers: {
-            "Content-Length": String(stat.size),
+        const contentType = filename.endsWith(".mp4") ? "video/mp4"
+            : filename.endsWith(".png") ? "image/png"
+            : "application/octet-stream"
+
+        const headers: Record<string, string> = {
             "Content-Type": contentType,
-            "Accept-Ranges": "bytes",
             "Cache-Control": "public, max-age=3600",
-        },
-    })
+            "Accept-Ranges": "bytes",
+        }
+
+        // Forward range response headers
+        const contentRange = upstream.headers.get("content-range")
+        const contentLength = upstream.headers.get("content-length")
+        if (contentRange) headers["Content-Range"] = contentRange
+        if (contentLength) headers["Content-Length"] = contentLength
+
+        return new Response(upstream.body, {
+            status: upstream.status,
+            headers,
+        })
+    } catch (err) {
+        console.error("Video proxy error:", err)
+        return NextResponse.json({ error: "Failed to fetch video" }, { status: 502 })
+    }
 }
