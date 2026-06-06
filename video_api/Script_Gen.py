@@ -62,7 +62,7 @@ JSON format to return:
 def generate_script(subject: str, level: str = "intermediate") -> dict:
 
     model = genai.GenerativeModel(
-        "gemini-2.5-flash",
+        "gemini-1.5-flash",
         system_instruction=SYSTEM_PROMPT,
         generation_config={"response_mime_type": "application/json"}
     )
