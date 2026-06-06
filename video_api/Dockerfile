@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# System dependencies for moviepy, playwright, etc.
+# System dependencies for moviepy, playwright, ffmpeg, etc.
 RUN apt-get update && apt-get install -y \
     gcc \
     ffmpeg \
@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
-# Set playwright to use system chromium
-ENV PLAYWRIGHT_BROWSERS_PATH=/usr/bin
+# Hugging Face Spaces requires a non-root user
+RUN useradd -m -u 1000 appuser
 
 WORKDIR /app
 
@@ -18,17 +18,19 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install playwright chromium
+# Install playwright chromium for non-root user
 RUN playwright install chromium || true
 
-# Copy all source files
-COPY . .
+# Copy all source files and set ownership
+COPY --chown=appuser:appuser . .
 
 # Create output directory
-RUN mkdir -p output
+RUN mkdir -p output && chown -R appuser:appuser /app
 
-# Expose port
-EXPOSE 8000
+USER appuser
 
-# Start command
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+# HF Spaces REQUIRES port 7860
+EXPOSE 7860
+
+# Start command on port 7860
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]

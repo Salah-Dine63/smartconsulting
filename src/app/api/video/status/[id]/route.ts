@@ -8,7 +8,8 @@ export async function GET(
 ) {
     const { id } = await params
     try {
-        const res = await fetch(`http://localhost:8000/status/${id}`)
+        const PYTHON_API = (process.env.VIDEO_API_URL || "http://localhost:8000").replace(/\/$/, "");
+        const res = await fetch(`${PYTHON_API}/status/${id}`)
         const data = await res.json()
         return NextResponse.json(data, { status: res.status })
     } catch (e: any) {
