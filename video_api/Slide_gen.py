@@ -575,7 +575,14 @@ async def render_slides(script_path: str, output_dir: str,
     print(f"Rendering {total} slides + intro/outro/thumbnail for: {title}  [theme: {theme}]\n")
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch()
+        # In Docker, use system Chromium and required sandbox flags
+        chromium_path = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH", None)
+        launch_args = {
+            "args": ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
+        }
+        if chromium_path:
+            launch_args["executable_path"] = chromium_path
+        browser = await p.chromium.launch(**launch_args)
 
         await asyncio.gather(*[
             render_one(browser, slide, total, html_dir, output_dir, theme=theme)
