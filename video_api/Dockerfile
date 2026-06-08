@@ -18,8 +18,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install playwright chromium for non-root user
-RUN playwright install chromium || true
+# Set playwright cache path to a shared directory and install chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN playwright install chromium
+RUN chmod -R 755 /ms-playwright
 
 # Copy all source files and set ownership
 COPY --chown=appuser:appuser . .
@@ -32,5 +34,5 @@ USER appuser
 # HF Spaces REQUIRES port 7860
 EXPOSE 7860
 
-# Start command on port 7860
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
+# Start command on port 7860 or dynamic PORT
+CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port ${PORT:-7860}"]
