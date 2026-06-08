@@ -3,6 +3,7 @@ import sys
 import time
 import uuid
 import threading
+import subprocess
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -15,8 +16,31 @@ from run import run_pipeline
 
 app = FastAPI(title="SmartConsulting Video API", version="1.0.0")
 
+def _ensure_playwright_browser():
+    """Install Playwright Chromium at runtime if not already present."""
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            # Try to get the browser executable path
+            browser_path = p.chromium.executable_path
+            if not os.path.exists(browser_path):
+                raise FileNotFoundError(f"Browser not found at {browser_path}")
+            print(f"[startup] Playwright Chromium found at: {browser_path}")
+    except Exception as e:
+        print(f"[startup] Playwright browser missing ({e}), running 'playwright install chromium'...")
+        result = subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            capture_output=True, text=True
+        )
+        if result.returncode == 0:
+            print("[startup] Playwright Chromium installed successfully.")
+        else:
+            print(f"[startup] playwright install failed:\n{result.stderr}")
+
+
 @app.on_event("startup")
 def startup_event():
+    _ensure_playwright_browser()
     load_jobs_from_disk()
 
 app.add_middleware(

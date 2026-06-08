@@ -27,7 +27,12 @@ export default async function CourseVideoPage({ params }: { params: Promise<{ id
         where: { courseId: course.id, userId }
     })
 
-    if (!enrollment && !isAdmin) {
+    const subscription = await prisma.subscription.findFirst({
+        where: { userId, status: "ACTIVE" }
+    })
+    const isFull = subscription?.planType === "FULL"
+
+    if (!enrollment && !isAdmin && !isFull) {
         redirect(`/courses/${course.id}`)
     }
 

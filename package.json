@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "lint": "eslint"
+    "build": "prisma generate && npx prisma db push --accept-data-loss && next build",
+    "lint": "eslint",
+    "video-api": "python3 video_api/api.py"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.94.0",

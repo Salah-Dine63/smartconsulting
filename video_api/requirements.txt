@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+google-generativeai
+moviepy
+numpy
+edge-tts
+playwright
+matplotlib
+gTTS
+requests
+# Build timestamp: Sat Jun  6 18:34:23 +01 2026
