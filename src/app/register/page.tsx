@@ -60,7 +60,7 @@ export default function RegisterPage() {
             <div className="max-w-md w-full space-y-8">
                 <div className="text-center">
                     <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Create an Account</h2>
-                    <p className="mt-2 text-sm text-slate-600">Enroll in premium professional education</p>
+                    <p className="mt-2 text-sm text-slate-600">Enroll in premium Agentix courses</p>
                 </div>
 
                 <Card className="border-0 shadow-xl shadow-slate-200/50">

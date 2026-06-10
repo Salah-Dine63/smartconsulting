@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs"
 
 export async function GET(req: Request) {
     try {
-        const adminEmail = "admin@smartconsulting.com"
-        const userEmail = "user@smartconsulting.com"
+        const adminEmail = "admin@agentix.com"
+        const userEmail = "user@agentix.com"
         const defaultPassword = "password123"
 
         const hashedPassword = await bcrypt.hash(defaultPassword, 10)

@@ -14,8 +14,15 @@ export default function Navbar() {
         <header className="border-b bg-white relative z-50">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/" className="text-2xl font-bold text-blue-950 tracking-tight flex items-center">
-                    <div className="w-8 h-8 bg-blue-600 font-extrabold text-white flex items-center justify-center rounded-lg mr-2 shadow-sm text-sm">RX</div>
-                    Roobo<span className="text-blue-600">tix</span>
+                    <div className="w-10 h-10 mr-2 rounded-xl bg-blue-950/5 border border-blue-200 shadow-sm flex items-center justify-center">
+                        <svg viewBox="0 0 64 64" className="w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="8" width="48" height="48" rx="12" fill="#0f172a" />
+                            <path d="M32 18L20 30L32 42L44 30L32 18Z" fill="#38bdf8" />
+                            <circle cx="32" cy="30" r="5" fill="#ffffff" />
+                            <path d="M18 30H12M52 30H46M32 44V50" stroke="#7dd3fc" strokeWidth="3" strokeLinecap="round" />
+                        </svg>
+                    </div>
+                    Agent<span className="text-blue-600">ix</span>
                 </Link>
                 <nav className="hidden md:flex gap-8 items-center">
                     <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">About Us</Link>

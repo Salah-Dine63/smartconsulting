@@ -1,7 +1,7 @@
-EXECUTIVE EDU PLATFORM - TECHNOLOGY STACK & DETAILS
-===================================================
+AGENTIX - TECHNOLOGY STACK & DETAILS
+=====================================
 
-This document outlines the complete technology stack, libraries, and architecture used to build the consulting application.
+This document outlines the complete technology stack, libraries, and architecture used to build the Agentix application.
 
 1. CORE FRAMEWORK
 -----------------

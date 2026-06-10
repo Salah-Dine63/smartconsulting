@@ -14,7 +14,7 @@ from pydantic import BaseModel
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from run import run_pipeline
 
-app = FastAPI(title="SmartConsulting Video API", version="1.0.0")
+app = FastAPI(title="Agentix Video API", version="1.0.0")
 
 def _ensure_playwright_browser():
     """Install Playwright Chromium at runtime to ensure it's available."""

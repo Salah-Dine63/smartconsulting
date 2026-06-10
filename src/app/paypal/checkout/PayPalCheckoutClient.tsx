@@ -252,7 +252,7 @@ export default function PayPalCheckoutClient({
                 {/* Footer security labels */}
                 <p className="text-[10px] text-center text-slate-550 mt-6 leading-relaxed">
                     PayPal Enterprise Solutions. Encrypted using 256-bit AES protection. <br/>
-                    Simulated transaction provider by smartconsulting-production.
+                    Simulated transaction provider by agentix-production.
                 </p>
             </div>
         </div>

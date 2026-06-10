@@ -12,7 +12,7 @@ export default function Home() {
         <div className="container mx-auto max-w-5xl relative z-10 text-center animate-in fade-in slide-in-from-bottom-8 duration-700 pb-12 pt-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-900/40 border border-blue-800/50 text-blue-200 text-xs font-semibold uppercase tracking-wider mb-8 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-            Professional Education Platform
+            Agentix Platform
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300">
             Master the Future of <br className="hidden md:block" />
@@ -113,8 +113,8 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
             <span className="text-xl font-bold text-slate-900 tracking-tight flex items-center">
-              <div className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded mr-2 text-[10px]">RX</div>
-              Roobo<span className="text-blue-600">tix</span>
+              <div className="w-6 h-6 bg-blue-600 text-white flex items-center justify-center rounded mr-2 text-[10px]">AX</div>
+              Agent<span className="text-blue-600">ix</span>
             </span>
             <p className="mt-4 text-sm text-slate-500 leading-relaxed">Empowering the world's leading organizations with future-ready tech skills.</p>
           </div>
