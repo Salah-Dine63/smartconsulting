@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import StripeButton from "@/components/StripeButton"
+import FreeEnrollButton from "@/components/FreeEnrollButton"
 import {
     CheckCircle2,
     Lock,
@@ -252,7 +253,7 @@ export default async function CheckoutPage({
                                     </p>
 
                                     <div className="text-5xl font-black text-white mb-2">
-                                        ${course.price}
+                                        {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </div>
 
                                     <p className="text-slate-400">
@@ -264,28 +265,34 @@ export default async function CheckoutPage({
                                 {/* PAYMENT METHODS */}
                                 <CardContent className="p-8 space-y-6">
 
-                                    {/* STRIPE */}
-                                    <StripeButton courseId={course.id} />
-                                    {/* PAYPAL */}
-                                    <form
-                                        action="/api/paypal"
-                                        method="POST"
-                                    >
+                                    {course.price === 0 ? (
+                                        <FreeEnrollButton courseId={course.id} />
+                                    ) : (
+                                        <>
+                                            {/* STRIPE */}
+                                            <StripeButton courseId={course.id} />
+                                            {/* PAYPAL */}
+                                            <form
+                                                action="/api/paypal"
+                                                method="POST"
+                                            >
 
-                                        <input
-                                            type="hidden"
-                                            name="courseId"
-                                            value={course.id}
-                                        />
+                                                <input
+                                                    type="hidden"
+                                                    name="courseId"
+                                                    value={course.id}
+                                                />
 
-                                        <Button
-                                            type="submit"
-                                            className="w-full h-14 rounded-2xl bg-[#0070BA] hover:bg-[#0062a3] text-white font-bold text-lg"
-                                        >
-                                            Pay with PayPal
-                                        </Button>
+                                                <Button
+                                                    type="submit"
+                                                    className="w-full h-14 rounded-2xl bg-[#0070BA] hover:bg-[#0062a3] text-white font-bold text-lg"
+                                                >
+                                                    Pay with PayPal
+                                                </Button>
 
-                                    </form>
+                                            </form>
+                                        </>
+                                    )}
 
 
 
@@ -297,11 +304,13 @@ export default async function CheckoutPage({
                                         <div>
 
                                             <h4 className="font-bold text-white mb-1">
-                                                Secure Payment
+                                                {course.price === 0 ? "Free Enrollment" : "Secure Payment"}
                                             </h4>
 
                                             <p className="text-sm text-slate-400 leading-relaxed">
-                                                All transactions are encrypted and securely processed using enterprise-grade payment infrastructure.
+                                                {course.price === 0 
+                                                    ? "Get instant lifetime access. No payment card or bank information is required."
+                                                    : "All transactions are encrypted and securely processed using enterprise-grade payment infrastructure."}
                                             </p>
 
                                         </div>

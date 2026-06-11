@@ -80,6 +80,7 @@ export default function VideoGenerator() {
     const [courseTitle, setCourseTitle] = useState("")
     const [courseDescription, setCourseDescription] = useState("")
     const [coursePrice, setCoursePrice] = useState("")
+    const [isFree, setIsFree] = useState(false)
     const [publishStatus, setPublishStatus] = useState<PublishStatus>("idle")
     const [createdCourse, setCreatedCourse] = useState<CreatedCourse | null>(null)
 
@@ -148,7 +149,7 @@ export default function VideoGenerator() {
     }
 
     async function publishCourse() {
-        if (!courseTitle.trim() || !courseDescription.trim() || !coursePrice) return
+        if (!courseTitle.trim() || !courseDescription.trim() || (!isFree && !coursePrice)) return
         setPublishStatus("loading")
 
         const videoUrl = jobStatus?.video_url ? toPublicVideoUrl(jobStatus.video_url) : ""
@@ -170,7 +171,7 @@ export default function VideoGenerator() {
         const body = {
             title: courseTitle.trim(),
             description: courseDescription.trim(),
-            price: parseFloat(coursePrice),
+            price: isFree ? 0 : parseFloat(coursePrice),
             imageUrl: thumbUrl,
             modules: modules,
         }
@@ -202,6 +203,7 @@ export default function VideoGenerator() {
         setCourseTitle("")
         setCourseDescription("")
         setCoursePrice("")
+        setIsFree(false)
         setPublishStatus("idle")
         setCreatedCourse(null)
     }
@@ -452,15 +454,27 @@ export default function VideoGenerator() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Price (USD)</Label>
+                                        <div className="flex items-center justify-between">
+                                            <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Price (USD)</Label>
+                                            <label className="flex items-center gap-1.5 text-xs font-semibold text-indigo-650 dark:text-indigo-400 cursor-pointer select-none">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isFree}
+                                                    onChange={(e) => setIsFree(e.target.checked)}
+                                                    className="w-4 h-4 rounded border-slate-350 dark:border-slate-805 text-indigo-650 focus:ring-indigo-500 cursor-pointer"
+                                                />
+                                                Free Course
+                                            </label>
+                                        </div>
                                         <Input
                                             type="number"
                                             min="0"
                                             step="0.01"
-                                            value={coursePrice}
+                                            disabled={isFree}
+                                            value={isFree ? "0" : coursePrice}
                                             onChange={e => setCoursePrice(e.target.value)}
                                             placeholder="e.g. 199"
-                                            className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 dark:focus:border-indigo-500 h-11 shadow-sm rounded-xl"
+                                            className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-indigo-500 dark:focus:border-indigo-500 h-11 shadow-sm rounded-xl disabled:opacity-50"
                                         />
                                     </div>
 
@@ -481,7 +495,7 @@ export default function VideoGenerator() {
 
                                     <Button
                                         onClick={publishCourse}
-                                        disabled={!courseTitle.trim() || !courseDescription.trim() || !coursePrice || publishStatus === "loading"}
+                                        disabled={!courseTitle.trim() || !courseDescription.trim() || (!isFree && !coursePrice) || publishStatus === "loading"}
                                         className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 text-white dark:text-slate-950 h-11 font-semibold rounded-xl cursor-pointer"
                                     >
                                         {publishStatus === "loading" ? (

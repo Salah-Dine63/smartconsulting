@@ -117,7 +117,7 @@ export function CourseCard({
                 {price !== undefined && (
 
                     <div className="text-2xl font-black text-blue-600 mb-4">
-                        ${price}
+                        {price === 0 ? "FREE" : `$${price}`}
                     </div>
 
                 )}

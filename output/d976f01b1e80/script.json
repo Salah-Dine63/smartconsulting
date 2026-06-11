@@ -1,0 +1,193 @@
+{
+  "title": "Mastering Intermediate Python: Decorators, Generators, and Context Managers",
+  "subject": "Python",
+  "slides": [
+    {
+      "slide_number": 1,
+      "title": "Unlocking Python's Potential: Intermediate Concepts",
+      "bullets": [
+        "Move beyond basic syntax to Pythonic idioms and advanced features.",
+        "Enhance code efficiency, readability, and maintainability.",
+        "Introduction to decorators: dynamic function modification.",
+        "Introduction to generators: memory-efficient sequence processing.",
+        "Introduction to context managers: robust resource handling."
+      ],
+      "narration": "Welcome to our lesson on intermediate Python features! As you progress from basic syntax, you'll encounter powerful constructs designed to make your code more elegant, efficient, and maintainable. Today, we'll explore three fundamental pillars of intermediate Python: decorators, generators, and context managers. Mastering these concepts will significantly elevate your programming capabilities, allowing you to write more sophisticated and robust applications.",
+      "study_guide": "Intermediate Python concepts are crucial for writing high-quality, maintainable, and efficient code. Moving beyond basic scripting involves understanding Python's design philosophy, often referred to as 'Pythonic' coding. This includes leveraging built-in features and patterns that reduce boilerplate, improve readability, and optimize performance. Decorators allow for clean, non-invasive modification of functions, enabling concerns like logging or authentication to be added without altering the original function's core logic. Generators provide a mechanism for lazy evaluation, which is vital when dealing with large datasets or infinite sequences, as they produce items one at a time, conserving memory. Context managers, epitomized by the `with` statement, ensure that resources are properly acquired and released, even in the presence of errors, preventing leaks and improving program stability. Together, these tools empower developers to tackle complex problems with more elegant and robust solutions.",
+      "equations": [],
+      "visual": "flow",
+      "code": null,
+      "quiz": {
+        "question": "Which of the following is NOT a primary benefit of mastering intermediate Python features like decorators and generators?",
+        "options": [
+          "Increased code readability and conciseness",
+          "Improved memory efficiency for large datasets",
+          "Automatic conversion of Python code to C++ for faster execution",
+          "Enhanced modularity and reusability of code"
+        ],
+        "correct_index": 2,
+        "explanation": "Intermediate Python features enhance code readability, efficiency, modularity, and reusability. They do not automatically convert Python code to C++."
+      }
+    },
+    {
+      "slide_number": 2,
+      "title": "Decorators: Modifying Functions on the Fly",
+      "bullets": [
+        "A callable that takes a function as an argument and returns a new function.",
+        "Uses the `@` syntactic sugar for clean application.",
+        "Commonly used for logging, timing, authentication, and caching.",
+        "Allows adding functionality without altering the original function's source code."
+      ],
+      "narration": "Decorators provide a powerful and elegant way to wrap functions or methods, adding new behavior before or after their execution without directly modifying their definition. At its core, a decorator is a higher-order function that accepts another function as an argument and returns a modified function. The `@` syntax is just syntactic sugar, making the application of these wrappers clean and readable, allowing concerns like logging or timing to be separated from the primary logic.",
+      "study_guide": "Decorators are a fundamental concept in Python for metaprogramming, allowing developers to change or extend the behavior of a callable (function or method) without permanently modifying it. They leverage Python's ability to treat functions as first-class objects, meaning functions can be passed as arguments, returned from other functions, and assigned to variables. A decorator essentially 'decorates' or 'wraps' another function. The `@decorator_name` syntax above a function definition is equivalent to `my_function = decorator_name(my_function)`. This pattern is highly effective for cross-cutting concerns, where a piece of functionality needs to be applied to multiple functions, such as enforcing access control, validating arguments, or adding performance monitoring. The returned function typically closes over the original function, forming a closure, which is key to how decorators work.",
+      "equations": [
+        "f'(x) = \\mathcal{D}(f)(x)"
+      ],
+      "visual": "flow",
+      "code": "def my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Something is happening before the function is called.\")\n        result = func(*args, **kwargs)\n        print(\"Something is happening after the function is called.\")\n        return result\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    print(\"Hello!\")\n\nsay_hello()",
+      "quiz": {
+        "question": "What is the primary purpose of a Python decorator?",
+        "options": [
+          "To modify the source code of a function directly.",
+          "To add or alter functionality of a function without changing its definition.",
+          "To convert a function into a class method.",
+          "To define global variables within a function's scope."
+        ],
+        "correct_index": 1,
+        "explanation": "Decorators are designed to wrap functions, adding new behavior without altering the original function's source code. They do not directly modify source code or change method types."
+      }
+    },
+    {
+      "slide_number": 3,
+      "title": "Decorator Chaining and Parameterization",
+      "bullets": [
+        "Multiple decorators can be applied to a single function, executed from bottom to top.",
+        "Decorators can accept arguments, requiring an outer 'decorator factory' function.",
+        "`functools.wraps` is vital for preserving the decorated function's metadata.",
+        "Enables creation of configurable and highly reusable function wrappers."
+      ],
+      "narration": "Beyond simple application, decorators can be chained, meaning multiple decorators can be applied to a single function, executing in a specific order: from the decorator closest to the function definition upwards. Furthermore, decorators can accept arguments, allowing them to be configured at decoration time. This is achieved by creating a 'decorator factory'—a function that takes arguments and returns the actual decorator. It's crucial to use `functools.wraps` within your wrapper function to preserve important metadata, such as the original function's name and docstring.",
+      "study_guide": "When multiple decorators are applied to a single function, they form a stack, executing in the order from the bottom-most decorator (closest to the `def` statement) to the top-most. This means the output of the inner decorator becomes the input for the next outer decorator. To make decorators configurable, they can accept arguments. This is achieved by defining an outer function that takes these arguments and then returns the actual decorator function. This outer function is often called a 'decorator factory.' A common pitfall in writing decorators is that the wrapper function returned by the decorator loses the original function's name, docstring, and other metadata. `functools.wraps` is a decorator itself that you apply to your inner wrapper function to automatically copy these attributes from the original function to the wrapper, making introspection easier and preserving helpful debugging information.",
+      "equations": [],
+      "visual": "flow",
+      "code": "import functools\n\ndef repeat(num_times):\n    def decorator_repeat(func):\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            for _ in range(num_times):\n                func(*args, **kwargs)\n        return wrapper\n    return decorator_repeat\n\n@repeat(num_times=3)\ndef greet(name):\n    print(f\"Hello, {name}!\")\n\ngreet(\"Alice\")",
+      "quiz": {
+        "question": "When chaining multiple decorators, in what order are they applied?",
+        "options": [
+          "From top to bottom (outermost first).",
+          "From bottom to top (innermost first, closest to the function definition).",
+          "The order is random and depends on the Python version.",
+          "Decorators cannot be chained."
+        ],
+        "correct_index": 1,
+        "explanation": "When chaining decorators, they are applied from bottom to top. The decorator closest to the function definition is applied first, wrapping the original function, and then the next decorator wraps the result of the previous one."
+      }
+    },
+    {
+      "slide_number": 4,
+      "title": "Generators and Iterators: Lazy Evaluation",
+      "bullets": [
+        "**Iterable**: An object capable of returning its iterator (e.g., lists, strings).",
+        "**Iterator**: An object that produces the next item in a sequence using `__next__()`.",
+        "**Generator**: A special type of iterator created by functions using the `yield` keyword.",
+        "Produce items one at a time, making them highly memory-efficient for large datasets."
+      ],
+      "narration": "Generators and iterators are fundamental concepts for efficient data processing in Python, especially when dealing with large or infinite sequences. An iterable is anything you can loop over, like a list, which returns an iterator. An iterator, on the other hand, is an object with a `__next__` method that retrieves the next item from the sequence. Generators are a convenient way to create iterators using functions that contain the `yield` keyword. Unlike `return`, `yield` pauses execution and saves the function's state, resuming from that point when the next item is requested, thus producing values 'on the fly' without storing the entire sequence in memory.",
+      "study_guide": "The Python iteration protocol revolves around two key concepts: iterables and iterators. An **iterable** is any object that defines an `__iter__` method, which returns an iterator. Examples include lists, tuples, strings, and dictionaries. An **iterator** is an object that defines both an `__iter__` method (which returns itself) and a `__next__` method. The `__next__` method is responsible for returning the next item in the sequence. When there are no more items, it must raise a `StopIteration` exception. **Generators** simplify the creation of iterators. Instead of implementing `__iter__` and `__next__` methods explicitly in a class, you can write a regular function and use the `yield` keyword. When a generator function is called, it returns a generator object, which is itself an iterator. Each time `yield` is encountered, the value is produced, and the function's state (local variables, instruction pointer) is saved. The next time `__next__` is called on the generator, execution resumes immediately after the `yield` statement. This 'lazy evaluation' is crucial for memory efficiency when working with sequences that are too large to fit in memory, such as processing lines from a huge file or generating an infinite series.",
+      "equations": [],
+      "visual": "flow",
+      "code": "def count_up_to(max_num):\n    count = 1\n    while count <= max_num:\n        yield count\n        count += 1\n\nmy_generator = count_up_to(5)\nfor num in my_generator:\n    print(num)",
+      "quiz": {
+        "question": "What is the primary advantage of using a generator over a list for creating a sequence of numbers up to 1 billion?",
+        "options": [
+          "Generators are always faster to compute all elements.",
+          "Generators consume significantly less memory as they produce items on demand.",
+          "Lists cannot store more than 1 million elements.",
+          "Generators automatically handle type conversion."
+        ],
+        "correct_index": 1,
+        "explanation": "The primary advantage of generators for large sequences is their memory efficiency. They generate values one at a time only when requested, rather than storing the entire sequence in memory like a list would."
+      }
+    },
+    {
+      "slide_number": 5,
+      "title": "Advanced Generators: Expressions and Pipelines",
+      "bullets": [
+        "**Generator expressions**: Concise syntax `(item for item in iterable if condition)`.",
+        "Similar to list comprehensions but use parentheses, creating a generator object.",
+        "Ideal for lightweight, one-off generators without a full function definition.",
+        "Enable efficient data processing pipelines by chaining multiple generators.",
+        "Advanced uses include coroutines for asynchronous programming."
+      ],
+      "narration": "Beyond generator functions, Python offers generator expressions, a more concise way to create generators, often for single-use cases. They mirror list comprehensions but use parentheses instead of square brackets, producing a generator object directly without defining a function with `yield`. This makes them perfect for building efficient data processing pipelines, where you can chain multiple generator operations together, each processing data lazily. This pattern is incredibly powerful for complex data transformations, ensuring that data is processed item by item, minimizing memory footprint and maximizing responsiveness. Moreover, generators can be extended into coroutines for asynchronous programming, using `yield from` and the `send()` method.",
+      "study_guide": "Generator expressions provide a syntactically compact way to create generator objects. They are similar to list comprehensions but use parentheses `()` instead of square brackets `[]`. The key difference lies in their evaluation: a list comprehension immediately constructs and stores the entire list in memory, while a generator expression returns a generator object that produces items lazily, only when iterated over. This makes generator expressions highly memory-efficient for one-off iterations or when the full sequence is not needed upfront. A significant application of generators and generator expressions is in building data pipelines. By chaining multiple generators together, each performing a specific transformation on the data stream, you can create highly efficient and readable data processing workflows. For example, `(process2(item) for item in (process1(data_item) for data_item in large_dataset))`. This ensures that each item is processed sequentially through the pipeline, minimizing the amount of data held in memory at any given time. While beyond the scope of this lesson, it's worth noting that generators form the basis for Python's asynchronous programming model, where `yield from` and methods like `send()` enable coroutines for cooperative multitasking.",
+      "equations": [],
+      "visual": "flow",
+      "code": "data = [1, 2, 3, 4, 5]\n\nsquared_gen = (x * x for x in data if x % 2 == 0)\n\nfor val in squared_gen:\n    print(val)\n\n# Chaining generators\nprocessed_data = (str(y) for y in (x * 2 for x in data if x > 2))\nprint(list(processed_data))",
+      "quiz": {
+        "question": "How do generator expressions differ from list comprehensions in their core behavior?",
+        "options": [
+          "Generator expressions are always faster than list comprehensions.",
+          "Generator expressions use square brackets `[]` while list comprehensions use parentheses `()`. ",
+          "Generator expressions create an iterator that yields items one by one, while list comprehensions build the entire list in memory.",
+          "List comprehensions are only for numbers, while generator expressions are for all data types."
+        ],
+        "correct_index": 2,
+        "explanation": "The core difference is memory usage and evaluation strategy. Generator expressions create a generator object (an iterator) that produces values lazily, one at a time, conserving memory. List comprehensions construct and store the entire list in memory immediately."
+      }
+    },
+    {
+      "slide_number": 6,
+      "title": "Context Managers: Safe Resource Handling with `with`",
+      "bullets": [
+        "The `with` statement guarantees proper resource setup and teardown.",
+        "Ensures resources like files or network connections are correctly closed.",
+        "Objects become context managers by implementing `__enter__` and `__exit__` methods.",
+        "The `contextlib` module provides convenient utilities, like `@contextmanager` decorator."
+      ],
+      "narration": "Context managers are a powerful feature in Python, primarily utilized through the `with` statement, to ensure that resources are properly managed. This means guaranteeing that a resource is acquired correctly when entering a block of code and released reliably when exiting, regardless of whether the block completes successfully or raises an exception. Any object that implements the `__enter__` method for setup and the `__exit__` method for cleanup can act as a context manager. The `contextlib` module further simplifies the creation of context managers, notably with the `@contextmanager` decorator, allowing you to use a generator function as a context manager.",
+      "study_guide": "The `with` statement in Python is not merely syntactic sugar; it's a critical tool for robust resource management. It guarantees that an `__enter__` method is called upon entering the block and an `__exit__` method is called upon exiting, ensuring proper setup and teardown of resources. This is particularly important for resources like files, network sockets, database connections, or locks, which need to be explicitly closed or released to prevent leaks or deadlocks. The `__enter__` method is responsible for acquiring the resource and optionally returning it (which can then be bound to the `as` variable in the `with` statement). The `__exit__` method handles the cleanup; it receives arguments related to any exception that occurred within the `with` block, allowing it to manage error conditions gracefully. Returning `True` from `__exit__` suppresses the exception. The `contextlib` module provides powerful tools to simplify context manager creation. The `@contextmanager` decorator, applied to a generator function, transforms it into a context manager where code before the `yield` acts as `__enter__` and code after `yield` acts as `__exit__`, with `yield` itself being the point where control is passed to the `with` block.",
+      "equations": [],
+      "visual": "flow",
+      "code": "class ManagedResource:\n    def __enter__(self):\n        print(\"Resource acquired.\")\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        print(\"Resource released.\")\n        if exc_type:\n            print(f\"An exception occurred: {exc_val}\")\n        return False # Do not suppress exception\n\nwith ManagedResource() as r:\n    print(\"Working with resource.\")\n    # raise ValueError(\"Oops!\") # Uncomment to test exception handling",
+      "quiz": {
+        "question": "What is the role of the `__exit__` method in a Python context manager?",
+        "options": [
+          "To acquire the resource at the beginning of the `with` block.",
+          "To process the main logic within the `with` block.",
+          "To handle cleanup and release the resource, even if an exception occurs.",
+          "To define the object as iterable."
+        ],
+        "correct_index": 2,
+        "explanation": "The `__exit__` method is called when the `with` block is exited, regardless of whether it completes normally or due to an exception. Its role is to perform necessary cleanup and release the acquired resource, ensuring proper resource management."
+      }
+    },
+    {
+      "slide_number": 7,
+      "title": "Recap and Practical Applications",
+      "bullets": [
+        "**Decorators**: Extend function behavior cleanly without modification.",
+        "**Generators**: Create memory-efficient iterators for large or infinite sequences.",
+        "**Context Managers**: Ensure reliable resource acquisition and release with `with`.",
+        "Collectively, these features enhance code modularity, efficiency, and robustness.",
+        "Empower more advanced, Pythonic, and maintainable software design."
+      ],
+      "narration": "In summary, we've explored three cornerstone intermediate Python features. Decorators provide a flexible way to augment function behavior, enabling reusable logic for tasks like logging or authentication. Generators offer unparalleled memory efficiency for handling large data streams, pausing and resuming execution with the `yield` keyword. Context managers, through the `with` statement, guarantee the safe and timely management of resources, preventing leaks and ensuring application stability. By integrating these concepts into your toolkit, you'll write cleaner, more efficient, and significantly more robust Python applications, embodying true Pythonic best practices.",
+      "study_guide": "This lesson has introduced three critical intermediate Python features that are essential for writing professional-grade code. Decorators are powerful higher-order functions that allow you to 'wrap' other functions, adding functionality without directly altering the wrapped function's code. They are perfect for applying cross-cutting concerns uniformly. Generators, built around the `yield` keyword, are specialized iterators that produce values on demand. This 'lazy evaluation' makes them invaluable for processing vast datasets or creating infinite sequences, as they drastically reduce memory consumption compared to constructing full lists. Context managers, primarily used with the `with` statement, provide a robust mechanism for managing resources by ensuring that setup (`__enter__`) and teardown (`__exit__`) operations are performed reliably, even if errors occur. Mastering these features will enable you to write more modular, efficient, and resilient Python programs, moving beyond basic scripting to truly leverage the language's full potential in complex software engineering tasks. Consistent practice and application of these concepts in your projects are key to internalizing their benefits and proper usage.",
+      "equations": [],
+      "visual": "flow",
+      "code": null,
+      "quiz": {
+        "question": "What is a common benefit shared by decorators, generators, and context managers?",
+        "options": [
+          "They all convert Python code to C++ for performance.",
+          "They all guarantee real-time execution in embedded systems.",
+          "They all contribute to writing more efficient, readable, and robust Python code.",
+          "They are primarily used for user interface design."
+        ],
+        "correct_index": 2,
+        "explanation": "Decorators, generators, and context managers are all fundamental intermediate Python features that enhance the efficiency, readability, and robustness of Python code by providing elegant solutions for common programming challenges."
+      }
+    }
+  ]
+}

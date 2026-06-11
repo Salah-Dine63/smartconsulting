@@ -231,7 +231,7 @@ export default async function CoursePage({
                                     <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-cyan-400"></div>
 
                                     <div className="text-5xl font-black mb-2 tracking-tight">
-                                        ${course.price}
+                                        {course.price === 0 ? "FREE" : `$${course.price}`}
                                     </div>
 
                                     <p className="text-slate-400 text-sm font-medium uppercase tracking-widest">
@@ -315,7 +315,7 @@ export default async function CoursePage({
                                                 <a
                                                     href={`/checkout/${course.id}`}
                                                 >
-                                                    Enroll Now
+                                                    {course.price === 0 ? "Enroll for Free" : "Enroll Now"}
                                                 </a>
 
                                             </Button>
