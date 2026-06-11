@@ -40,7 +40,12 @@ Your role:
             },
             body: JSON.stringify({
                 system_instruction: { parts: [{ text: systemInstruction }] },
-                contents: geminiMessages
+                contents: geminiMessages,
+                generationConfig: {
+                    thinkingConfig: {
+                        thinkingBudget: 0
+                    }
+                }
             })
         })
 

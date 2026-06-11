@@ -100,7 +100,7 @@ export default async function CoursePage({
 
     const isFull = userPlan === "FULL"
 
-    const hasCourseAccess = isFull || !!enrollment || isAdmin
+    const hasCourseAccess = isFull || !!enrollment || isAdmin || course.price === 0
 
     return (
 
