@@ -32,7 +32,7 @@ export default async function CourseVideoPage({ params }: { params: Promise<{ id
     })
     const isFull = subscription?.planType === "FULL"
 
-    if (!enrollment && !isAdmin && !isFull) {
+    if (!enrollment && !isAdmin && !isFull && course.price !== 0) {
         redirect(`/courses/${course.id}`)
     }
 
