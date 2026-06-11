@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const { title, description, price, imageUrl, modules } = await req.json()
 
-    if (!title || !description || !price) {
+    if (!title || !description || price === undefined || price === null || isNaN(price)) {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 

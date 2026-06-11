@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import Stripe from "stripe"
 import { prisma } from "@/lib/prisma"
-import { sendEnrollmentEmail } from "@/lib/email"
+import { sendEnrollmentEmail, sendWelcomeEmail } from "@/lib/email"
 import { getStripe } from "@/lib/stripe"
 
 // IMPORTANT REMINDER: Add STRIPE_SECRET_KEY & STRIPE_WEBHOOK_SECRET to your .env file

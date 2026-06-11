@@ -6,6 +6,7 @@ import { Plus, X, BookOpen, Layers } from "lucide-react"
 export default function AdminCourseForm() {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [isFree, setIsFree] = useState(false)
     const [modules, setModules] = useState([{ title: "", videoUrl: "", description: "" }])
 
     const addModule = () => setModules([...modules, { title: "", videoUrl: "", description: "" }])
@@ -21,10 +22,12 @@ export default function AdminCourseForm() {
         setLoading(true)
         const form = new FormData(e.currentTarget)
 
+        const priceVal = isFree ? 0 : parseFloat(form.get("price") as string)
+
         const body = {
             title: form.get("title"),
             description: form.get("description"),
-            price: parseFloat(form.get("price") as string),
+            price: priceVal,
             imageUrl: form.get("imageUrl"),
             modules,
         }
@@ -38,6 +41,7 @@ export default function AdminCourseForm() {
             if (res.ok) {
                 setSuccess(true)
                 setModules([{ title: "", videoUrl: "", description: "" }])
+                setIsFree(false)
                 ;(e.target as HTMLFormElement).reset()
                 setTimeout(() => setSuccess(false), 4000)
             }
@@ -76,15 +80,28 @@ export default function AdminCourseForm() {
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Price (USD)</label>
+                    <div className="flex items-center justify-between">
+                        <label className="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Price (USD)</label>
+                        <label className="flex items-center gap-1.5 text-xs font-semibold text-indigo-650 dark:text-indigo-400 cursor-pointer select-none">
+                            <input
+                                type="checkbox"
+                                checked={isFree}
+                                onChange={(e) => setIsFree(e.target.checked)}
+                                className="w-4 h-4 rounded border-slate-350 dark:border-slate-800 text-indigo-650 focus:ring-indigo-500 cursor-pointer"
+                            />
+                            Free Course
+                        </label>
+                    </div>
                     <input 
                         name="price" 
                         type="number" 
-                        required 
+                        required={!isFree}
+                        disabled={isFree}
+                        value={isFree ? "0" : undefined}
                         min="0" 
                         step="0.01" 
                         placeholder="199" 
-                        className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all duration-200 shadow-sm" 
+                        className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all duration-200 shadow-sm disabled:opacity-50" 
                     />
                 </div>
                 <div className="space-y-2">

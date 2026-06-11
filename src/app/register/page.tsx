@@ -151,7 +151,7 @@ export default function RegisterPage() {
                             </Button>
                         </CardFooter>
                     </form>
-                    
+
                     <div className="px-6 pb-6 space-y-4">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
@@ -174,15 +174,15 @@ export default function RegisterPage() {
                             </Button>
                             <Button type="button" variant="outline" onClick={() => signIn("azure-ad", { callbackUrl: "/dashboard" })} className="w-full">
                                 <svg className="w-5 h-5 mr-2" viewBox="0 0 21 21">
-                                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
-                                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
-                                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
-                                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                                    <rect x="1" y="1" width="9" height="9" fill="#f25022" />
+                                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef" />
+                                    <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
+                                    <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
                                 </svg>
                                 Microsoft
                             </Button>
                         </div>
-                        
+
                         <div className="text-sm text-center text-slate-600 mt-4">
                             Already have an account?{" "}
                             <Link href="/login" className="font-semibold text-blue-900 hover:text-blue-800">
